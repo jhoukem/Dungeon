@@ -12,7 +12,7 @@ public class Room {
 	boolean isEntrance = false;
 	boolean isTrap = false;
 	Key key = null;
-	
+
 	HashMap<Direction, Room> neighbors;
 
 
@@ -30,7 +30,12 @@ public class Room {
 		return r;
 	}
 
-
+	public boolean alreadyConnected(Room r){
+		if(neighbors.containsValue(r))
+			return true;
+		else
+			return false;
+	}
 
 
 }

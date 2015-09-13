@@ -10,7 +10,18 @@ public class Dungeon {
 
 	String line;
 
-	public Dungeon(){
+	public Room generateRoom(){
+		Room r = new Room(rooms.size() + 1, false);
+		rooms.add(r);
+		return r;
+	}
+	
+	public void initPlayer() {
+		p.currentRoom = rooms.get(0);
+		
+	}
+	
+	public void init(){
 		Room r1 = new Room(1, false);
 		Room r2 = new Room(2, false);
 		Room r3 = new Room(3, false);
@@ -18,13 +29,13 @@ public class Dungeon {
 		Room r5 = new Room(5, false);
 		Room r6 = new Room(6, false);
 		Room r7 = new Room(7, true);
-		
-		
+
+
 		r1.isEntrance = true;
 		r7.isExit = true;
 		r6.key = new Key(7);
 		r5.isTrap = true;
-		
+
 		connectRoom(r1, Direction.NORTH, r2);
 		connectRoom(r1, Direction.WEST, r3);
 		connectRoom(r3, Direction.NORTH, r4);
@@ -39,6 +50,9 @@ public class Dungeon {
 
 		p.currentRoom = r1;
 	}
+	public Dungeon(){
+
+	}
 
 	/**
 	 * @param room the first room we have
@@ -48,27 +62,28 @@ public class Dungeon {
 	 * 
 	 */
 	public void connectRoom(Room room, Direction dir, Room room2 ){
-
-		room.neighbors.put(dir, room2);
-		if(dir == Direction.NORTH){
-			room2.neighbors.put(Direction.SOUTH, room);
-			room2.hasSouthSide = true;	
-			room.hasNorthSide = true;	
-		}
-		else if(dir == Direction.EAST){
-			room2.neighbors.put(Direction.WEST, room);
-			room2.hasWestSide = true;	
-			room.hasEastSide = true;	
-		}
-		else if(dir == Direction.SOUTH){
-			room2.neighbors.put(Direction.NORTH, room);
-			room2.hasNorthSide = true;	
-			room.hasSouthSide = true;	
-		}
-		else if(dir == Direction.WEST){
-			room2.neighbors.put(Direction.EAST, room);
-			room2.hasEastSide = true;	
-			room.hasWestSide = true;	
+		if(!room.alreadyConnected(room2)){
+			room.neighbors.put(dir, room2);
+			if(dir == Direction.NORTH){
+				room2.neighbors.put(Direction.SOUTH, room);
+				room2.hasSouthSide = true;	
+				room.hasNorthSide = true;	
+			}
+			else if(dir == Direction.EAST){
+				room2.neighbors.put(Direction.WEST, room);
+				room2.hasWestSide = true;	
+				room.hasEastSide = true;	
+			}
+			else if(dir == Direction.SOUTH){
+				room2.neighbors.put(Direction.NORTH, room);
+				room2.hasNorthSide = true;	
+				room.hasSouthSide = true;	
+			}
+			else if(dir == Direction.WEST){
+				room2.neighbors.put(Direction.EAST, room);
+				room2.hasEastSide = true;	
+				room.hasWestSide = true;	
+			}
 		}
 	}
 
@@ -85,14 +100,10 @@ public class Dungeon {
 	}
 
 	private void checkRoom() {
-		if(p.currentRoom.isTrap){
+		if(p.currentRoom.isTrap)
 			p.health = 0;
-		}
-		else{
+		else
 			checkItem();
-		}
-	
-		
 	}
 
 	private void checkItem() {
@@ -101,14 +112,14 @@ public class Dungeon {
 			p.keyring.add(p.currentRoom.key);
 			p.currentRoom.key = null;
 		}
-		
+
 	}
 
 	public boolean isGameOver(){
 		return p.health < 1 || p.currentRoom.isExit;
 	}
 
-	private void executeCommand(String line) {
+	public void executeCommand(String line) {
 
 		if(line.equals("n")){
 
