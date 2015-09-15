@@ -12,7 +12,7 @@ public class EnigmRoom extends Room {
 
 	public EnigmRoom(int n) {
 		super(n);
-		question = new Question("Est tu humain ?", "oui", "non");
+		question = new Question("Es tu humain ?", "oui", "non");
 		question.addAnswer("peut etre");
 	}
 

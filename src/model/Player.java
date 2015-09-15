@@ -28,6 +28,7 @@ public class Player {
 	}
 	
 	public void changeCurrentRoom(Room r){
+		previousRoom = currentRoom;
 		currentRoom = r;
 	}
 
