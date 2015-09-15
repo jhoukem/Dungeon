@@ -6,18 +6,19 @@ import java.util.Scanner;
 public class Dungeon {
 
 	Scanner sc = new Scanner(System.in);
-	private ArrayList<Room> rooms = new ArrayList<Room>();
 	public Player p = new Player();
+	
+	private ArrayList<Room> rooms = new ArrayList<Room>();
 
-	String line;
-	Room entrance, exit;
+	private String line;
+	private Room entrance, exit;
 
 	public Dungeon(){
 
 	}
 
 	public void initPlayer() {
-		p.currentRoom = entrance;
+		p.setCurrentRoom(entrance);
 	}
 
 	public boolean hasExit(){
@@ -38,11 +39,11 @@ public class Dungeon {
 		Room r7 = RoomFactory.generateRoom("r", getRooms());
 
 
-		r7.isExit = true;
-		r7.needKey = true;
+		r7.setExit(true);
+		r7.setNeedKey(true);
 
-		r6.key = new Key(7);
-		r5.isTrap = true;
+		r6.setKey(new Key(7));
+		r5.setTrap(true);
 		entrance = r1;
 		
 		connectRoom(r1, Direction.NORTH, r2);
@@ -94,60 +95,60 @@ public class Dungeon {
 		System.out.println("Please choose a direction bewteen 'north', 'east', 'south' or 'west' .");
 		line = sc.nextLine();
 		executeCommand(line);
-		p.currentRoom.act(p);
+		p.getCurrentRoom().act(p);
 	}
 
 
 	public boolean isGameOver(){
-		return p.health < 1 || p.currentRoom.isExit;
+		return p.health < 1 || p.getCurrentRoom().isExit();
 	}
 
 	public void executeCommand(String line) {
 
 		if(line.equals("n")){
 
-			if(p.currentRoom.hasNorthSide){
-				if(p.currentRoom.getNextRoom(Direction.NORTH ).needKey && // if the next room need a key 
-						!p.hasKeyForRoom(p.currentRoom.getNextRoom(Direction.NORTH ))) // and if the player don't have the key
+			if(p.getCurrentRoom().hasNorthSide){
+				if(p.getCurrentRoom().getNextRoom(Direction.NORTH ).isNeedKey() && // if the next room need a key 
+						!p.hasKeyForRoom(p.getCurrentRoom().getNextRoom(Direction.NORTH ))) // and if the player don't have the key
 					System.out.println("You need a key to enter in this room");
 				else
-					p.currentRoom = p.currentRoom.getNextRoom(Direction.NORTH );//change the current room
+					p.setCurrentRoom(p.getCurrentRoom().getNextRoom(Direction.NORTH ));//change the current room
 			}
 			else
 				System.out.println("There is no way on north side !");
 
 		}
 		else if(line.equals("e")){
-			if(p.currentRoom.hasEastSide){
-				if(p.currentRoom.getNextRoom(Direction.EAST ).needKey && // if the next room need a key 
-						!p.hasKeyForRoom(p.currentRoom.getNextRoom(Direction.EAST ))) // and if the player don't have the key
+			if(p.getCurrentRoom().hasEastSide){
+				if(p.getCurrentRoom().getNextRoom(Direction.EAST ).isNeedKey() && // if the next room need a key 
+						!p.hasKeyForRoom(p.getCurrentRoom().getNextRoom(Direction.EAST ))) // and if the player don't have the key
 					System.out.println("You need a key to enter in this room");
 				else
-					p.currentRoom = p.currentRoom.getNextRoom(Direction.EAST );//change the current room
+					p.setCurrentRoom(p.getCurrentRoom().getNextRoom(Direction.EAST));//change the current room
 			}
 			else
 				System.out.println("There is no way on east side !");
 
 		}
 		else if(line.equals("s")){
-			if(p.currentRoom.hasSouthSide){
-				if(p.currentRoom.getNextRoom(Direction.SOUTH ).needKey && // if the next room need a key 
-						!p.hasKeyForRoom(p.currentRoom.getNextRoom(Direction.SOUTH ))) // and if the player don't have the key
+			if(p.getCurrentRoom().hasSouthSide){
+				if(p.getCurrentRoom().getNextRoom(Direction.SOUTH ).isNeedKey() && // if the next room need a key 
+						!p.hasKeyForRoom(p.getCurrentRoom().getNextRoom(Direction.SOUTH ))) // and if the player don't have the key
 					System.out.println("You need a key to enter in this room");
 				else
-					p.currentRoom = p.currentRoom.getNextRoom(Direction.SOUTH );//change the current room
+					p.setCurrentRoom(p.getCurrentRoom().getNextRoom(Direction.SOUTH));//change the current room
 			}
 			else
 				System.out.println("There is no way on south side !");
 
 		}
 		else if(line.equals("w")){
-			if(p.currentRoom.hasWestSide){
-				if(p.currentRoom.getNextRoom(Direction.WEST ).needKey && // if the next room need a key 
-						!p.hasKeyForRoom(p.currentRoom.getNextRoom(Direction.WEST ))) // and if the player don't have the key
+			if(p.getCurrentRoom().hasWestSide){
+				if(p.getCurrentRoom().getNextRoom(Direction.WEST ).isNeedKey() && // if the next room need a key 
+						!p.hasKeyForRoom(p.getCurrentRoom().getNextRoom(Direction.WEST ))) // and if the player don't have the key
 					System.out.println("You need a key to enter in this room");
 				else
-					p.currentRoom = p.currentRoom.getNextRoom(Direction.WEST );//change the current room
+					p.setCurrentRoom(p.getCurrentRoom().getNextRoom(Direction.WEST));//change the current room
 			}
 			else
 				System.out.println("There is no way on west side !");

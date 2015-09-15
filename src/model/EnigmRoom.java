@@ -5,9 +5,9 @@ import java.util.Scanner;
 
 public class EnigmRoom extends Room {
 
-	Scanner	sc = new Scanner(System.in);
-	int rep;
-	Question question;
+	private Scanner	sc = new Scanner(System.in);
+	private int rep;
+	private Question question;
 	private boolean answered = false;
 
 	public EnigmRoom(int n) {
@@ -25,6 +25,8 @@ public class EnigmRoom extends Room {
 			rep = getAnwser();
 			if(question.isCorrectAnswer(rep)){
 				System.out.println("Congratulation you can pass !");
+				answered = true;
+				checkKey(p);
 			}
 			else{
 				System.out.println("Feels my wrath");
@@ -32,9 +34,11 @@ public class EnigmRoom extends Room {
 				System.out.println("Health : " + p.health);
 				if(p.health < 1)
 					System.out.println("You are dead ! Game Over...");
+				else{
+					System.out.println("You have been send back to room n°"+p.getPreviousRoom().numero);
+					p.setCurrentRoom(p.getPreviousRoom());
+				}
 			}
-			answered = true;
-			checkKey(p);
 		}
 	}
 

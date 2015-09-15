@@ -61,12 +61,12 @@ public class Test {
 		dj.connectRoom(r1, Direction.NORTH, r2);
 		// init player in room 1
 		dj.initPlayer();
-		assertTrue(dj.p.currentRoom == r1);
+		assertTrue(dj.p.getCurrentRoom() == r1);
 		assertTrue(dj.p.canGetInRoom(r2));
 		dj.executeCommand("n");
-		assertTrue(dj.p.currentRoom == r2);
+		assertTrue(dj.p.getCurrentRoom() == r2);
 		dj.executeCommand("s");
-		assertTrue(dj.p.currentRoom == r1);
+		assertTrue(dj.p.getCurrentRoom() == r1);
 
 	}
 
@@ -75,7 +75,7 @@ public class Test {
 		Dungeon dj = new Dungeon();
 		Room r1 = RoomFactory.generateRoom("r", dj.getRooms());
 		Room r2 = RoomFactory.generateRoom("r", dj.getRooms());
-		r2.needKey = true;
+		r2.setNeedKey(true);
 		dj.connectRoom(r1, Direction.EAST, r2);
 		dj.initPlayer();
 		assertFalse(dj.p.canGetInRoom(r2));

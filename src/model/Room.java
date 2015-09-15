@@ -6,26 +6,26 @@ public class Room {
 
 	final int numero;
 
-	public boolean needKey = false;
+	private boolean needKey = false;
 	public boolean hasEastSide, hasWestSide, hasNorthSide, hasSouthSide = false;
 
-	public boolean isExit = false;
-	public boolean isEntrance = false;
-	public boolean isTrap = false;
-	public Key key = null;
+	private boolean isExit = false;
+	private boolean isEntrance = false;
+	private boolean isTrap = false;
+	private Key key = null;
 
 	public HashMap<Direction, Room> neighbors;
 
 	public void act(Player p){
 		System.out.println("Room n°"+numero);	
-		if(isExit)
+		if(isExit())
 			System.out.println("Congratulation ! You escaped from the dungeon");
 		
-		else if(isTrap){// if the room is a trap after it has hit the player the trap is destroyed
+		else if(isTrap()){// if the room is a trap after it has hit the player the trap is destroyed
 			System.out.println("You fall in a trap");
 			p.health --;
 			System.out.println("Health :"+p.health);
-			isTrap = false;
+			setTrap(false);
 			if(p.health < 1)
 				System.out.println("You are dead ! Game Over...");
 		}
@@ -34,10 +34,10 @@ public class Room {
 	}
 
 	public void checkKey(Player p){
-		if(key != null ){
-			System.out.println("You picked up a key ! ("+key.ROOM_NUMBER+")");
-			p.keyring.add(key);
-			key = null;
+		if(getKey() != null ){
+			System.out.println("You picked up a key ! ("+getKey().ROOM_NUMBER+")");
+			p.getKeyring().add(getKey());
+			setKey(null);
 		}
 	}
 
@@ -59,6 +59,38 @@ public class Room {
 			return true;
 		else
 			return false;
+	}
+
+	public boolean isExit() {
+		return isExit;
+	}
+
+	public void setExit(boolean isExit) {
+		this.isExit = isExit;
+	}
+
+	public boolean isNeedKey() {
+		return needKey;
+	}
+
+	public void setNeedKey(boolean needKey) {
+		this.needKey = needKey;
+	}
+
+	public Key getKey() {
+		return key;
+	}
+
+	public void setKey(Key key) {
+		this.key = key;
+	}
+
+	public boolean isTrap() {
+		return isTrap;
+	}
+
+	public void setTrap(boolean isTrap) {
+		this.isTrap = isTrap;
 	}
 
 
