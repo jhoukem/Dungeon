@@ -28,7 +28,11 @@ public class EnigmRoom extends Room {
 	public void act(Player p) {
 		System.out.println("Room n�" + numero);
 		System.out.println("welcome to the sphinx room, answering my question and you will get a sublime reward, fail and you will suffer my wrath");
+		/* leger doute sur la formule du random */
 		question = listQuestion.get((int) (Math.random() * listQuestion.size()));
+		askQuestion();
+		getAnswer();
+		checkAnswer(p);
 	}
 
 	public void askQuestion() {
