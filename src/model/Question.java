@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Question {
 
@@ -21,6 +22,7 @@ public class Question {
 	public void ask(){
 		System.out.println(question);
 		System.out.println("Choose the number of the correct answer");
+		Collections.shuffle(possibleAnswer);
 		for(int i = 0; i < possibleAnswer.size(); i++){
 			System.out.println("Answer n°"+(i+1)+" : "+possibleAnswer.get(i));
 		}

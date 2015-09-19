@@ -96,6 +96,7 @@ public class Dungeon {
 		line = sc.nextLine();
 		executeCommand(line);
 		p.getCurrentRoom().act(p);
+		p.t.use(p.getCurrentRoom());
 	}
 
 

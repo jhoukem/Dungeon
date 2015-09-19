@@ -7,7 +7,7 @@ public class Player {
 	int stamina;
 	private Room currentRoom;
 	private Room previousRoom;
-
+	Torch t = new Torch();
 	private ArrayList<Key> keyring = new ArrayList<Key>();
 
 
