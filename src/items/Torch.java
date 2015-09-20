@@ -1,10 +1,20 @@
-package model;
+package items;
+
+import model.Room;
 
 public class Torch {
+	private static final int MAX_FIRE = 10;
 	private int fire;
 
 	public Torch(){
-		fire = 10;
+
+	}
+
+	public Torch(int n){
+		if(n < 11 && n > 0)
+			fire = n;
+		else
+			fire = MAX_FIRE;
 	}
 
 	public void use(Room r){
@@ -24,6 +34,10 @@ public class Torch {
 		}
 		else
 			System.out.println("Your torch is extinguished");
+	}
+
+	public void reload() {
+		fire = MAX_FIRE;
 	}
 
 

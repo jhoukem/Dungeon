@@ -2,6 +2,9 @@ package model;
 
 import java.util.Scanner;
 
+import items.Baton;
+import items.Sword;
+
 
 public class EnigmRoom extends Room {
 
@@ -18,30 +21,49 @@ public class EnigmRoom extends Room {
 
 	@Override
 	public void act(Player p) {
-		System.out.println("Room n°" + numero);
+		displayNum();
+
 		if(!answered){
-			System.out.println("Welcome to the sphinx room, answering my question and you will get a sublime reward, fail and you will suffer my wrath");
+			System.out.println("Welcome to the sphinx room, answering my question"
+					+ " and you will get a sublime reward, fail and you will suffer my wrath");
 			question.ask();
 			rep = getAnwser();
 			if(question.isCorrectAnswer(rep)){
 				System.out.println("Congratulation you can pass !");
 				answered = true;
-				checkKey(p);
+				giveRandomWeapon(p);
+				checkItem(p);
 			}
 			else{
 				System.out.println("Feels my wrath");
-				p.health--;
-				System.out.println("Health : " + p.health);
-				if(p.health < 1)
+				p.setHealth(p.getHealth() - 1);
+				System.out.println("Health : " + p.getHealth());
+				if(p.getHealth() < 1)
 					System.out.println("You are dead ! Game Over...");
 				else{
-					System.out.println("You have been send back to room n°"+p.getPreviousRoom().numero);
+					System.out.println("You have been send back to room "
+							+ "n°"+p.getPreviousRoom().numero);
 					p.setCurrentRoom(p.getPreviousRoom());
+					p.getCurrentRoom().act(p);//a voir
 				}
 			}
 		}
+
 	}
 
+
+	private void giveRandomWeapon(Player p) {
+		if(Math.random()*101 > 50){
+			p.setWp(new Sword());
+			System.out.println("I give you a sword !");
+		}
+			
+		else{
+			System.out.println("I give you a baton !");
+			p.setWp(new Baton());
+		}
+			
+	}
 
 	private int getAnwser() {
 		int rep = 0;
@@ -66,14 +88,6 @@ public class EnigmRoom extends Room {
 		if(num > 0 && num < question.getPossibleAnswer().size() + 1)
 			return true;
 		return false;
-	}
-
-	public boolean isANumber(String line) {
-		for(int i = 0; i < line.length(); i++){
-			if(line.charAt(i) < '0' || line.charAt(i) > '9')
-				return false;
-		}
-		return true;
 	}
 
 }

@@ -1,6 +1,8 @@
 package model;
 import java.util.HashMap;
 
+import items.Key;
+
 
 public class Room {
 
@@ -11,33 +13,33 @@ public class Room {
 
 	private boolean isExit = false;
 	private boolean isEntrance = false;
-	private boolean isTrap = false;
+	private boolean isTorch = false;
 	private Key key = null;
 
 	public HashMap<Direction, Room> neighbors;
 
 	public void act(Player p){
-		System.out.println("Room n°"+numero);	
+		displayNum();
 		if(isExit())
 			System.out.println("Congratulation ! You escaped from the dungeon");
-		
-		else if(isTrap()){// if the room is a trap after it has hit the player the trap is destroyed
-			System.out.println("You fall in a trap");
-			p.health --;
-			System.out.println("Health :"+p.health);
-			setTrap(false);
-			if(p.health < 1)
-				System.out.println("You are dead ! Game Over...");
-		}
-		checkKey(p);
+		else 
+			checkItem(p);
 
 	}
 
-	public void checkKey(Player p){
+	protected void displayNum() {
+		System.out.println("Room n°"+numero);	
+	}
+
+	public void checkItem(Player p){
 		if(getKey() != null ){
 			System.out.println("You picked up a key ! ("+getKey().ROOM_NUMBER+")");
 			p.getKeyring().add(getKey());
 			setKey(null);
+		}
+		if(isTorch){
+			isTorch = false;
+			p.getTorch().reload();
 		}
 	}
 
@@ -59,6 +61,15 @@ public class Room {
 			return true;
 		else
 			return false;
+	}
+	protected boolean isANumber(String line) {
+		if(line.isEmpty())
+			return false;
+		for(int i = 0; i < line.length(); i++){
+			if(line.charAt(i) < '0' || line.charAt(i) > '9')
+				return false;
+		}
+		return true;
 	}
 
 	public boolean isExit() {
@@ -85,12 +96,12 @@ public class Room {
 		this.key = key;
 	}
 
-	public boolean isTrap() {
-		return isTrap;
+	public boolean isEntrance() {
+		return isEntrance;
 	}
 
-	public void setTrap(boolean isTrap) {
-		this.isTrap = isTrap;
+	public void setEntrance(boolean isEntrance) {
+		this.isEntrance = isEntrance;
 	}
 
 

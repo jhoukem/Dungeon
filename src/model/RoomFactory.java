@@ -14,6 +14,8 @@ public class RoomFactory {
 			r = new Room(rooms.size() + 1);
 		else if(s.equals("m"))
 			r = new MonsterRoom(rooms.size() + 1);
+		else if(s.equals("t"))
+			r = new TrapRoom(rooms.size() + 1);
 		else
 			System.out.println("TYPE INCONNU !");
 		rooms.add(r);

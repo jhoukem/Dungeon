@@ -1,19 +1,44 @@
 package model;
 import java.util.ArrayList;
 
+import items.Fist;
+import items.HealPotion;
+import items.Key;
+import items.Torch;
+import items.Weapon;
+
 
 public class Player {
-	int health;
-	int stamina;
+	private int health;
+	private Torch t = new Torch(10);
+	private Weapon wp = new Fist();
+	private ArrayList<HealPotion> secours;
+	private ArrayList<Key> keyring = new ArrayList<Key>();
+
 	private Room currentRoom;
 	private Room previousRoom;
-	Torch t = new Torch();
-	private ArrayList<Key> keyring = new ArrayList<Key>();
 
 
 	public Player(){
-		health = 3;
-		stamina = 10;
+		health = 10;
+	}
+
+	public boolean isAlive(){
+		return health > 0;
+	}
+
+	public void useHealthPotion(){
+		if(!secours.isEmpty()){
+			HealPotion p = secours.get(0);
+			secours.remove(p);
+			if(health + p.getValue() > 10)
+				health = 10;
+			else
+				health += p.getValue();
+		}
+		else{
+			System.out.println("You don't have any heal potion left");
+		}
 	}
 
 	public boolean hasKeyForRoom(Room r){
@@ -54,9 +79,34 @@ public class Player {
 	public void setPreviousRoom(Room previousRoom) {
 		this.previousRoom = previousRoom;
 	}
-	
+
 	public ArrayList<Key> getKeyring() {
 		return keyring;
 	}
 
+	public Weapon getWp() {
+		return wp;
+	}
+
+	public void setWp(Weapon wp) {
+		this.wp = wp;
+	}
+
+	public Torch getTorch() {
+		return t;
+	}
+
+	public void setT(Torch t) {
+		this.t = t;
+	}
+	public int getHealth() {
+		return health;
+	}
+	public void setHealth(int health) {
+		this.health = health;
+	}
+
+	public void act() {
+		getTorch().use(getCurrentRoom());
+	}
 }

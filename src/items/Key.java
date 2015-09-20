@@ -1,4 +1,4 @@
-package model;
+package items;
 
 public class Key {
 	

@@ -2,6 +2,8 @@ package model;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import items.Key;
+
 
 public class Dungeon {
 
@@ -34,16 +36,15 @@ public class Dungeon {
 		Room r2 = RoomFactory.generateRoom("r", getRooms());
 		Room r3 = RoomFactory.generateRoom("r", getRooms());
 		Room r4 = RoomFactory.generateRoom("r", getRooms());
-		Room r5 = RoomFactory.generateRoom("r", getRooms());
+		Room r5 = RoomFactory.generateRoom("t", getRooms());
 		Room r6 = RoomFactory.generateRoom("e", getRooms());
 		Room r7 = RoomFactory.generateRoom("r", getRooms());
-
+		Room r8 = RoomFactory.generateRoom("m", getRooms());
 
 		r7.setExit(true);
 		r7.setNeedKey(true);
 
 		r6.setKey(new Key(7));
-		r5.setTrap(true);
 		entrance = r1;
 		
 		connectRoom(r1, Direction.NORTH, r2);
@@ -52,6 +53,7 @@ public class Dungeon {
 		connectRoom(r4, Direction.NORTH, r5);
 		connectRoom(r4, Direction.WEST, r6);
 		connectRoom(r2, Direction.NORTH, r7);
+		connectRoom(r3, Direction.SOUTH, r8);
 
 		initPlayer();
 	}
@@ -93,15 +95,16 @@ public class Dungeon {
 
 	public void update() {
 		System.out.println("Please choose a direction bewteen 'north', 'east', 'south' or 'west' .");
+		p.act();
 		line = sc.nextLine();
 		executeCommand(line);
 		p.getCurrentRoom().act(p);
-		p.t.use(p.getCurrentRoom());
+	
 	}
 
 
 	public boolean isGameOver(){
-		return p.health < 1 || p.getCurrentRoom().isExit();
+		return p.getHealth() < 1 || p.getCurrentRoom().isExit();
 	}
 
 	public void executeCommand(String line) {
