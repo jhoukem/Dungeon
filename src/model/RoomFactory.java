@@ -12,8 +12,10 @@ public class RoomFactory {
 			r = new EnigmRoom(rooms.size() + 1);
 		else if(s.equals("r"))
 			r = new Room(rooms.size() + 1);
-		else if(s.equals("m"))
-			r = new MonsterRoom(rooms.size() + 1);
+		else if(s.equals("mA"))
+			r = new MonsterRoom(rooms.size() + 1, new Arakne());
+		else if(s.equals("mG"))
+			r = new MonsterRoom(rooms.size() + 1, new Glouton());
 		else if(s.equals("t"))
 			r = new TrapRoom(rooms.size() + 1);
 		else

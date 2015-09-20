@@ -3,7 +3,7 @@ package items;
 public class Baton extends Weapon {
 
 	public Baton() {
-		super(3);
+		super(3,"Baton");
 	}
 
 }

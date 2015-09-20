@@ -5,10 +5,11 @@ import java.util.Scanner;
 public class MonsterRoom extends Room {
 
 	private Scanner	sc = new Scanner(System.in);
-	private Monster monster = new Glouton();
+	private Monster monster ;
 
-	public MonsterRoom(int n) {
+	public MonsterRoom(int n, Monster m) {
 		super(n);
+		monster = m;
 	}
 
 	@Override

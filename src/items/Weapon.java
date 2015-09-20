@@ -2,9 +2,11 @@ package items;
 
 public class Weapon {
 	private int power;
-
-	public Weapon(int n){
+	private final String name;
+	
+	public Weapon(int n, String s){
 		setPower(n);
+		name = s;
 	}
 
 	public int getPower() {
@@ -13,6 +15,10 @@ public class Weapon {
 
 	public void setPower(int power) {
 		this.power = power;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 }

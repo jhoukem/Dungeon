@@ -39,7 +39,8 @@ public class Dungeon {
 		Room r5 = RoomFactory.generateRoom("t", getRooms());
 		Room r6 = RoomFactory.generateRoom("e", getRooms());
 		Room r7 = RoomFactory.generateRoom("r", getRooms());
-		Room r8 = RoomFactory.generateRoom("m", getRooms());
+		Room r8 = RoomFactory.generateRoom("mG", getRooms());
+		Room r9 = RoomFactory.generateRoom("mA", getRooms());
 
 		r7.setExit(true);
 		r7.setNeedKey(true);
@@ -54,6 +55,7 @@ public class Dungeon {
 		connectRoom(r4, Direction.WEST, r6);
 		connectRoom(r2, Direction.NORTH, r7);
 		connectRoom(r3, Direction.SOUTH, r8);
+		connectRoom(r2, Direction.EAST, r9);
 
 		initPlayer();
 	}
@@ -109,7 +111,14 @@ public class Dungeon {
 
 	public void executeCommand(String line) {
 
-		if(line.equals("n")){
+		
+		if(line.equals("potion")){
+			p.useHealthPotion();
+		}
+		if(line.equals("inventory")){
+			p.displayInventory();
+		}
+		else if(line.equals("n")){
 
 			if(p.getCurrentRoom().hasNorthSide){
 				if(p.getCurrentRoom().getNextRoom(Direction.NORTH ).isNeedKey() && // if the next room need a key 
@@ -141,13 +150,13 @@ public class Dungeon {
 					p.setCurrentRoom(p.getCurrentRoom().getNextRoom(Direction.EAST));//change the current room
 					playerMoved = true;	
 				}
-					
+
 			}
 			else{
 				System.out.println("There is no way on east side !");
 				playerMoved = false;	
 			}
-				
+
 
 		}
 		else if(line.equals("s")){
@@ -157,18 +166,18 @@ public class Dungeon {
 					System.out.println("You need a key to enter in this room");
 					playerMoved = false;	
 				}
-					
+
 				else{
 					p.setCurrentRoom(p.getCurrentRoom().getNextRoom(Direction.SOUTH));//change the current room
 					playerMoved = true;	
 				}
-					
+
 			}
 			else{
 				System.out.println("There is no way on south side !");
 				playerMoved = false;	
 			}
-				
+
 
 		}
 		else if(line.equals("w")){
@@ -182,13 +191,13 @@ public class Dungeon {
 					p.setCurrentRoom(p.getCurrentRoom().getNextRoom(Direction.WEST));//change the current room
 					playerMoved = true;	
 				}
-					
+
 			}
 			else{
 				playerMoved = false;	
 				System.out.println("There is no way on west side !");
 			}
-				
+
 		}
 		else{
 			System.out.println("Please write a direction like 'north', 'east', 'south' or 'west' .");

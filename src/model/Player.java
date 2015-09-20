@@ -12,7 +12,7 @@ public class Player {
 	private int health;
 	private Torch t = new Torch(10);
 	private Weapon wp = new Fist();
-	private ArrayList<HealPotion> secours;
+	private ArrayList<HealPotion> secours = new ArrayList<HealPotion>();
 	private ArrayList<Key> keyring = new ArrayList<Key>();
 
 	private Room currentRoom;
@@ -21,6 +21,7 @@ public class Player {
 
 	public Player(){
 		health = 10;
+		secours.add(new HealPotion());
 	}
 
 	public boolean isAlive(){
@@ -28,6 +29,7 @@ public class Player {
 	}
 
 	public void useHealthPotion(){
+//		if(heath == H)
 		if(!secours.isEmpty()){
 			HealPotion p = secours.get(0);
 			secours.remove(p);
@@ -35,6 +37,8 @@ public class Player {
 				health = 10;
 			else
 				health += p.getValue();
+			System.out.println("You used a health potion and restored your health");
+			System.out.println("Health : "+health);
 		}
 		else{
 			System.out.println("You don't have any heal potion left");
@@ -108,5 +112,14 @@ public class Player {
 
 	public void useTorch() {
 		getTorch().use(getCurrentRoom());
+	}
+
+	public void displayInventory() {
+		System.out.println("Health potion : "+secours.size());
+		System.out.println("Keyring : "+keyring.size()+" key");
+		for(Key k : keyring){
+			System.out.println("Key n°"+k.ROOM_NUMBER);
+		}
+		System.out.println("Current weapon : "+wp.getName()+" ("+wp.getPower()+" power)");
 	}
 }
