@@ -38,7 +38,7 @@ public class EnigmRoom extends Room {
 				System.out.println("Feels my wrath");
 				p.setHealth(p.getHealth() - 1);
 				System.out.println("Health : " + p.getHealth());
-				if(p.getHealth() < 1)
+				if(!p.isAlive())
 					System.out.println("You are dead ! Game Over...");
 				else{
 					System.out.println("You have been send back to room "

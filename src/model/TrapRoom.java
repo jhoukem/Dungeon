@@ -2,19 +2,32 @@ package model;
 
 public class TrapRoom extends Room{
 
+	private boolean activated;
+
 	public TrapRoom(int n) {
 		super(n);
 	}
 
-	
-	
-	
-//	else if(isTrap()){// if the room is a trap after it has hit the player the trap is destroyed
-//		System.out.println("You fall in a trap");
-//		p.setHealth(p.getHealth() - 1);
-//		System.out.println("Health :"+p.getHealth());
-//		setTrap(false);
-//		if(p.getHealth() < 1)
-//			System.out.println("You are dead ! Game Over...");
-//	}
+
+	@Override
+	public void act(Player p) {
+		displayNum();
+		if(!activated){
+			System.out.println("You fall in a trap");
+			p.setHealth(p.getHealth() - 1);
+			System.out.println("Health : "+p.getHealth());
+			setActivated(false);
+		}
+	}
+
+
+	public boolean isActivated() {
+		return activated;
+	}
+
+
+	public void setActivated(boolean activated) {
+		this.activated = activated;
+	}
+
 }

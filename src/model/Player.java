@@ -106,7 +106,7 @@ public class Player {
 		this.health = health;
 	}
 
-	public void act() {
+	public void useTorch() {
 		getTorch().use(getCurrentRoom());
 	}
 }

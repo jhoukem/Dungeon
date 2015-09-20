@@ -18,8 +18,6 @@ public class MonsterRoom extends Room {
 			System.out.println("You are attacked by a monster !");
 			fight(p);
 		}
-//		checkItem(p);
-		
 	}
 
 
@@ -73,7 +71,7 @@ public class MonsterRoom extends Room {
 				}
 			}
 			else if(choice == 3){
-				if(Math.random()*101 > 60){
+				if(Math.random()*101 > 70){
 					escaped  = true;
 					System.out.println("You escaped from the monster and you ran back to the previous room");
 					p.setCurrentRoom(p.getPreviousRoom());
@@ -87,14 +85,15 @@ public class MonsterRoom extends Room {
 			}
 		}
 		
-		if(!monster.isAlive()){
+		if(!p.isAlive()){
+			System.out.println("You are dead ! Game Over...");
+		}
+		else if(!monster.isAlive()){
 			System.out.println("Your health :"+p.getHealth());
 			System.out.println("You kill the monster !");
 			checkItem(p);
 		}
-		else if(!p.isAlive()){
-			System.out.println("You are dead ! Game Over...");
-		}
+		
 
 	}
 
@@ -102,7 +101,7 @@ public class MonsterRoom extends Room {
 		System.out.println("Your health :"+p.getHealth());
 		System.out.println("Monster health : "+monster.getHealth());
 		System.out.println("Choose an action :");
-		System.out.println("1 : Attack(100%)\n2 : Dodge(15%)\n3 : Escape(20%)");
+		System.out.println("1 : Attack(100%)\n2 : Dodge(15%)\n3 : Escape(30%)");
 	}
 
 	public Monster getMonster() {

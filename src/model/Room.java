@@ -39,6 +39,7 @@ public class Room {
 		}
 		if(isTorch){
 			isTorch = false;
+			System.out.println("You picked up a torch !");
 			p.getTorch().reload();
 		}
 	}

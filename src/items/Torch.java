@@ -20,7 +20,7 @@ public class Torch {
 	public void use(Room r){
 		if(fire > 1){
 			fire --;
-			System.out.println("Possible directions : (Torch) ");
+			System.out.println("Possible directions : (Torch = "+fire+") ");
 			String s = "";
 			if(r.hasEastSide)
 				s+= "East\n";
