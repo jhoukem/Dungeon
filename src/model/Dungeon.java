@@ -33,29 +33,37 @@ public class Dungeon {
 	public void init(){
 
 		Room r1 = RoomFactory.generateRoom("r", getRooms());
-		Room r2 = RoomFactory.generateRoom("r", getRooms());
+		Room r2 = RoomFactory.generateRoom("mA", getRooms());
 		Room r3 = RoomFactory.generateRoom("r", getRooms());
-		Room r4 = RoomFactory.generateRoom("r", getRooms());
-		Room r5 = RoomFactory.generateRoom("t", getRooms());
-		Room r6 = RoomFactory.generateRoom("e", getRooms());
+		Room r4 = RoomFactory.generateRoom("mG", getRooms());
+		Room r5 = RoomFactory.generateRoom("r", getRooms());
+		Room r6 = RoomFactory.generateRoom("r", getRooms());
 		Room r7 = RoomFactory.generateRoom("r", getRooms());
-		Room r8 = RoomFactory.generateRoom("mG", getRooms());
-		Room r9 = RoomFactory.generateRoom("mA", getRooms());
+		Room r8 = RoomFactory.generateRoom("t", getRooms());
+		Room r9 = RoomFactory.generateRoom("e", getRooms());
+		Room r10 = RoomFactory.generateRoom("r", getRooms());
 
+		setEntrance(r1);
+		r9.setNeedKey(true);
+		r4.setKey(new Key(9));
+		r5.setHasTorch(true);
+		r10.setHasTorch(true);
 		r7.setExit(true);
-		r7.setNeedKey(true);
-
-		r6.setKey(new Key(7));
-		entrance = r1;
 
 		connectRoom(r1, Direction.NORTH, r2);
 		connectRoom(r1, Direction.WEST, r3);
-		connectRoom(r3, Direction.NORTH, r4);
-		connectRoom(r4, Direction.NORTH, r5);
-		connectRoom(r4, Direction.WEST, r6);
 		connectRoom(r2, Direction.NORTH, r7);
-		connectRoom(r3, Direction.SOUTH, r8);
-		connectRoom(r2, Direction.EAST, r9);
+
+		connectRoom(r3, Direction.SOUTH, r4);
+		connectRoom(r3, Direction.WEST, r5);
+		connectRoom(r3, Direction.NORTH, r6);
+
+		connectRoom(r6, Direction.NORTH, r8);
+		connectRoom(r6, Direction.WEST, r9);
+		connectRoom(r6, Direction.EAST, r2);
+
+
+		connectRoom(r9, Direction.WEST, r10);
 
 		initPlayer();
 	}
@@ -91,6 +99,7 @@ public class Dungeon {
 				room.hasWestSide = true;	
 			}
 		}
+//		else TODO throw an exception here
 	}
 
 
@@ -111,7 +120,7 @@ public class Dungeon {
 
 	public void executeCommand(String line) {
 
-		
+
 		if(line.equals("potion")){
 			p.useHealthPotion();
 		}
@@ -211,5 +220,13 @@ public class Dungeon {
 	public void setRooms(ArrayList<Room> rooms) {
 		this.rooms = rooms;
 	}
+	public Room getEntrance() {
+		return entrance;
+	}
 
+	public void setEntrance(Room entrance) {
+		this.entrance = entrance;
+	}
+	
+	
 }

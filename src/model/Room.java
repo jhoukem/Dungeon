@@ -13,7 +13,7 @@ public class Room {
 
 	private boolean isExit = false;
 	private boolean isEntrance = false;
-	private boolean isTorch = false;
+	private boolean hasTorch = false;
 	private Key key = null;
 
 	public HashMap<Direction, Room> neighbors;
@@ -37,8 +37,8 @@ public class Room {
 			p.getKeyring().add(getKey());
 			setKey(null);
 		}
-		if(isTorch){
-			isTorch = false;
+		if(hasTorch){
+			hasTorch = false;
 			System.out.println("You picked up a torch !");
 			p.getTorch().reload();
 		}
@@ -104,6 +104,12 @@ public class Room {
 	public void setEntrance(boolean isEntrance) {
 		this.isEntrance = isEntrance;
 	}
+	public boolean hasTorch() {
+		return hasTorch;
+	}
 
+	public void setHasTorch(boolean hasTorch) {
+		this.hasTorch = hasTorch;
+	}
 
 }

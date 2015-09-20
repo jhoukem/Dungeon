@@ -53,11 +53,10 @@ public class EnigmRoom extends Room {
 
 
 	private void giveRandomWeapon(Player p) {
-		if(Math.random()*101 > 50){
+		if((int) (Math.random()*101) > 50){
 			p.setWp(new Sword());
 			System.out.println("I give you a sword !");
 		}
-			
 		else{
 			System.out.println("I give you a baton !");
 			p.setWp(new Baton());

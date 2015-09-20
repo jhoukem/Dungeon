@@ -16,7 +16,7 @@ public class TrapRoom extends Room{
 			System.out.println("You fall in a trap");
 			p.setHealth(p.getHealth() - 1);
 			System.out.println("Health : "+p.getHealth());
-			setActivated(false);
+			setActivated(true);
 		}
 	}
 

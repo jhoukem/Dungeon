@@ -19,7 +19,7 @@ public class RoomFactory {
 		else if(s.equals("t"))
 			r = new TrapRoom(rooms.size() + 1);
 		else
-			System.out.println("TYPE INCONNU !");
+			System.out.println("TYPE INCONNU !");//TODO throw an unknowRoomTypeException here !
 		rooms.add(r);
 
 		return r;

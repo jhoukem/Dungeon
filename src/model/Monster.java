@@ -3,16 +3,17 @@ package model;
 public class Monster {
 	private int health;
 	private int power;
-	
+	private String name;
 	
 
 	public boolean isAlive(){
 		return health > 0;
 	}
 	
-	public Monster(int h, int p){
+	public Monster(int h, int p, String n){
 		setHealth(h);
 		setPower(p);
+		setName(n);
 	}
 
 	public int getHealth() {
@@ -36,6 +37,14 @@ public class Monster {
 //		if(r < 33 )//attack
 			p.setHealth(p.getHealth() - power);
 	
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

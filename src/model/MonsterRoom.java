@@ -16,7 +16,7 @@ public class MonsterRoom extends Room {
 	public void act(Player p){
 		displayNum();
 		if(monster.isAlive()){
-			System.out.println("You are attacked by a monster !");
+			System.out.println("You are attacked by a monster ! ("+monster.getName()+")");
 			fight(p);
 		}
 	}

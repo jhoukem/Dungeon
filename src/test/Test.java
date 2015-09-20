@@ -11,6 +11,8 @@ import model.RoomFactory;
 
 public class Test {
 
+	
+	
 	@org.junit.Test
 	public void roomConnection() {
 		Dungeon dj = new Dungeon();
@@ -60,6 +62,7 @@ public class Test {
 		Room r1 = RoomFactory.generateRoom("r", dj.getRooms());
 		Room r2 = RoomFactory.generateRoom("r", dj.getRooms());
 		dj.connectRoom(r1, Direction.NORTH, r2);
+		dj.setEntrance(r1);
 		// init player in room 1
 		dj.initPlayer();
 		assertTrue(dj.p.getCurrentRoom() == r1);
@@ -84,5 +87,5 @@ public class Test {
 		assertTrue(dj.p.canGetInRoom(r2));
 
 	}
-
+	
 }
