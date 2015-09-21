@@ -75,7 +75,7 @@ public class Dungeon {
 	 * ex :  (room1, NORTH, room2) will connect the room2 on the north side of the room1
 	 * 
 	 */
-	public void connectRoom(Room room, Direction dir, Room room2 ){
+	public static void connectRoom(Room room, Direction dir, Room room2 ){
 		if(!room.alreadyConnected(room2)){
 			room.neighbors.put(dir, room2);
 			if(dir == Direction.NORTH){

@@ -16,14 +16,15 @@ public class FileParser {
 	List<String>	allLine	= new ArrayList<String>();
 
 	/**
-	 * récupére chaque ligne du fichier passé en paramétre
+	 * rï¿½cupï¿½re chaque ligne du fichier passï¿½ en paramï¿½tre
 	 * 
 	 * @param file
-	 *            fichier à parser
+	 *            fichier ï¿½ parser
 	 */
 	FileParser(File file) {
 		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 			String line;
+			br.readLine();
 			while ((line = br.readLine()) != null) {
 				allLine.add(line);
 			}
@@ -39,12 +40,14 @@ public class FileParser {
 	}
 
 	/**
-	 * @return retourne une liste de toute les lignes du fichier découpé sous
-	 *         forme de tableau : 1er colone = numéro de la salle d'origine 2eme
-	 *         colone = direction 3éme colone = numéro de la salle d'arrivé
+	 * @return retourne une liste de toute les lignes du fichier dï¿½coupï¿½ sous
+	 *         forme de tableau : 1er colone = numï¿½ro de la salle d'origine 2eme
+	 *         colone = salle au nord 3ï¿½me colone = salle a l'est
+	 *         4Ã©me colone = salle au sud 5Ã©me colone = salle Ã  l'ouest
+	 *         
 	 */
-	public List<String[]> parseLines() {
-		List<String[]> parsedLines = new ArrayList<>();
+	public ArrayList<String[]> parseLines() {
+		ArrayList<String[]> parsedLines = new ArrayList<>();
 		String[] tmpLine;
 		for (String line : allLine) {
 			tmpLine = line.split(" ");
@@ -52,5 +55,18 @@ public class FileParser {
 		}
 		return parsedLines;
 	}
-
+	
+//	public static void main(String[] args) {
+//		File f1=new File("premierDj.txt");
+//		
+//		FileParser fp1=new FileParser(f1);
+//		ArrayList<String[]> a1=fp1.parseLines();
+//		for (String[] strings : a1) {
+//			for(int i = 0; i< strings.length; i++){
+//				System.out.print(strings[i]+": ");
+//			}
+//			System.out.println();
+//		}
+//		
+//	}
 }
