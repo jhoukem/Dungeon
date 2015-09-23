@@ -13,7 +13,7 @@ public class DjGeneratorFromFile {
 
 		ArrayList<Room> rooms = new ArrayList<Room>();
 		FileParser fp = new FileParser(f);
-		ArrayList<String[]> roomList = fp.parseLines();
+		ArrayList<String[]> roomList = fp.parseLines(" ");
 		//create all the rooms
 		for (String[] strings : roomList) {
 			rooms.add(new Room(Integer.parseInt(strings[0])));
