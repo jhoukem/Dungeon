@@ -7,24 +7,27 @@ import rooms.Room;
 
 public class DjGeneratorFromFile {
 
-	ArrayList<Room> rooms = new ArrayList<Room>();
 
-	public DjGeneratorFromFile(File f){
+
+	public static ArrayList<Room> generateDjFromFile(File f){
+
+		ArrayList<Room> rooms = new ArrayList<Room>();
 		FileParser fp = new FileParser(f);
-		ArrayList<String[]> roomList=fp.parseLines();
+		ArrayList<String[]> roomList = fp.parseLines();
 		//create all the rooms
 		for (String[] strings : roomList) {
 			rooms.add(new Room(Integer.parseInt(strings[0])));
 		}		
 		//connect all the rooms
 		for (String[] list : roomList) {
-			for(int i = 0; i < list.length ;i++){
-				//NESW
-				String room = list[i];
-				
-				if(!room.equals("*")){
+			String room = list[0];
+
+			for(int i = 1; i < 5 ;i++){
+				String room2 = list[i];
+
+				if(!room2.equals("*")){
 					Direction dir = null;
-					
+
 					switch (i) {
 					case 1:dir = Direction.NORTH;break;
 					case 2:dir = Direction.EAST;break;
@@ -34,30 +37,26 @@ public class DjGeneratorFromFile {
 						break;
 					}
 					
-					int num = Integer.parseInt(room);
-					Room r1 = getRoomNumber(i+1);
-					Room r2 = getRoomNumber(num);
+					int numRoom1 = Integer.parseInt(room);
+					int numRoom2 = Integer.parseInt(room2);
+					
+					Room r1 = getRoomNumber(numRoom1, rooms);
+					Room r2 = getRoomNumber(numRoom2,rooms);
 					Dungeon.connectRoom(r1, dir, r2);
-					
-					
-					
 				}
 			}
+
 		}
-
-
-
+		return rooms;
 	}	
 
 
-
-
-public Room getRoomNumber(int i){
-	for(Room r : rooms){
-		if(r.getNumero() == i)
-			return r;
+	public static Room getRoomNumber(int i, ArrayList<Room> rooms){
+		for(Room r : rooms){
+			if(r.getNumero() == i)
+				return r;
+		}
+		return null;
 	}
-	return null;
-}
 
 }
