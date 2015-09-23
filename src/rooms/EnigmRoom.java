@@ -1,6 +1,10 @@
-package model;
+package rooms;
 
 import java.util.Scanner;
+
+import model.Player;
+import model.Question;
+
 
 import items.Baton;
 import items.Sword;
@@ -42,7 +46,7 @@ public class EnigmRoom extends Room {
 					System.out.println("You are dead ! Game Over...");
 				else{
 					System.out.println("You have been send back to room "
-							+ "n°"+p.getPreviousRoom().numero);
+							+ "nï¿½"+p.getPreviousRoom().getNumero());
 					p.setCurrentRoom(p.getPreviousRoom());
 					p.getCurrentRoom().act(p);//a voir
 				}

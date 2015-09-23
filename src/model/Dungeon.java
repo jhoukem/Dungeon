@@ -2,6 +2,9 @@ package model;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import rooms.Room;
+import rooms.RoomFactory;
+
 import items.Key;
 
 

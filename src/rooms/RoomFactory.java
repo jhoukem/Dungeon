@@ -1,6 +1,10 @@
-package model;
+package rooms;
 
 import java.util.ArrayList;
+
+import monsters.Arakne;
+import monsters.Glouton;
+
 
 public class RoomFactory {
 

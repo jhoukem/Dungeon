@@ -1,12 +1,15 @@
-package model;
+package rooms;
 import java.util.HashMap;
+
+import model.Direction;
+import model.Player;
 
 import items.Key;
 
 
 public class Room {
 
-	final int numero;
+	private final int numero;
 
 	private boolean needKey = false;
 	public boolean hasEastSide, hasWestSide, hasNorthSide, hasSouthSide = false;
@@ -28,7 +31,7 @@ public class Room {
 	}
 
 	protected void displayNum() {
-		System.out.println("Room n°"+numero);	
+		System.out.println("Room nï¿½"+getNumero());	
 	}
 
 	public void checkItem(Player p){
@@ -110,6 +113,10 @@ public class Room {
 
 	public void setHasTorch(boolean hasTorch) {
 		this.hasTorch = hasTorch;
+	}
+
+	public int getNumero() {
+		return numero;
 	}
 
 }

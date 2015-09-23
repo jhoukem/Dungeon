@@ -1,6 +1,6 @@
 package items;
 
-import model.Room;
+import rooms.Room;
 
 public class Torch {
 	private static final int MAX_FIRE = 10;

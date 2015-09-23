@@ -1,6 +1,6 @@
 package items;
 
-public class Weapon {
+public abstract class Weapon {
 	private int power;
 	private final String name;
 	

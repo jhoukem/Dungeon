@@ -1,4 +1,6 @@
-package model;
+package monsters;
+
+
 
 public class Arakne extends Monster{
 

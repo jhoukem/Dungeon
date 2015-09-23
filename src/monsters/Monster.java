@@ -1,6 +1,8 @@
-package model;
+package monsters;
 
-public class Monster {
+import model.Player;
+
+public abstract class Monster {
 	private int health;
 	private int power;
 	private String name;

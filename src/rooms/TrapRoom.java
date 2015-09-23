@@ -1,4 +1,6 @@
-package model;
+package rooms;
+
+import model.Player;
 
 public class TrapRoom extends Room{
 

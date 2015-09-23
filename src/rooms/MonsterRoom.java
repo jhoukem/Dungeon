@@ -1,6 +1,10 @@
-package model;
+package rooms;
 
 import java.util.Scanner;
+
+import model.Player;
+import monsters.Monster;
+
 
 public class MonsterRoom extends Room {
 

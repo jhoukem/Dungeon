@@ -3,6 +3,8 @@ package model;
 import java.io.File;
 import java.util.ArrayList;
 
+import rooms.Room;
+
 public class DjGeneratorFromFile {
 
 	ArrayList<Room> rooms = new ArrayList<Room>();
@@ -52,7 +54,7 @@ public class DjGeneratorFromFile {
 
 public Room getRoomNumber(int i){
 	for(Room r : rooms){
-		if(r.numero == i)
+		if(r.getNumero() == i)
 			return r;
 	}
 	return null;

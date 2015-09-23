@@ -1,6 +1,8 @@
 package model;
 import java.util.ArrayList;
 
+import rooms.Room;
+
 import items.Fist;
 import items.HealPotion;
 import items.Key;
@@ -47,7 +49,7 @@ public class Player {
 
 	public boolean hasKeyForRoom(Room r){
 		for(Key key : keyring){
-			if(r.numero == key.ROOM_NUMBER)
+			if(r.getNumero() == key.ROOM_NUMBER)
 				return true;
 		}
 		return false;
@@ -118,7 +120,7 @@ public class Player {
 		System.out.println("Health potion : "+secours.size());
 		System.out.println("Keyring : "+keyring.size()+" key");
 		for(Key k : keyring){
-			System.out.println("Key n°"+k.ROOM_NUMBER);
+			System.out.println("Key nï¿½"+k.ROOM_NUMBER);
 		}
 		System.out.println("Current weapon : "+wp.getName()+" ("+wp.getPower()+" power)");
 	}

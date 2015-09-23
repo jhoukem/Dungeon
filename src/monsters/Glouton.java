@@ -1,4 +1,6 @@
-package model;
+package monsters;
+
+
 
 public class Glouton extends Monster {
 

@@ -2,12 +2,12 @@ package test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import rooms.Room;
+import rooms.RoomFactory;
 
 import items.Key;
 import model.Direction;
 import model.Dungeon;
-import model.Room;
-import model.RoomFactory;
 
 public class Test {
 
