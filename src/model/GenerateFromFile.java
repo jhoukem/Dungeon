@@ -8,7 +8,7 @@ import items.Key;
 import rooms.Room;
 import rooms.RoomFactory;
 
-public class DjGeneratorFromFile {
+public class GenerateFromFile {
 
 
 

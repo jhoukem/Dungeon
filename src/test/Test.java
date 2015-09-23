@@ -12,7 +12,7 @@ import rooms.RoomFactory;
 
 import items.Key;
 import model.Direction;
-import model.DjGeneratorFromFile;
+import model.GenerateFromFile;
 import model.Dungeon;
 import model.FileParser;
 import model.Question;
