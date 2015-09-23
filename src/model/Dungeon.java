@@ -70,7 +70,7 @@ public class Dungeon {
 		//
 		//		connectRoom(r9, Direction.WEST, r10);
 
-		rooms = DjGeneratorFromFile.generateDjFromFile(new File("map"));
+		rooms = DjGeneratorFromFile.generateDjFromFile(new File("testDJ.txt"));
 		for(Room r : rooms){
 			if(r.isEntrance())
 				entrance = r;
