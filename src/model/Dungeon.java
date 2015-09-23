@@ -24,7 +24,7 @@ public class Dungeon {
 	}
 
 	public void initPlayer() {
-//		p.setCurrentRoom(entrance);
+		//		p.setCurrentRoom(entrance);
 		p.setCurrentRoom(rooms.get(0));
 	}
 
@@ -37,23 +37,22 @@ public class Dungeon {
 
 	public void init(){
 
-		//		Room r1 = RoomFactory.generateRoom("r", getRooms());
-		//		Room r2 = RoomFactory.generateRoom("mA", getRooms());
-		//		Room r3 = RoomFactory.generateRoom("r", getRooms());
-		//		Room r4 = RoomFactory.generateRoom("mG", getRooms());
-		//		Room r5 = RoomFactory.generateRoom("r", getRooms());
-		//		Room r6 = RoomFactory.generateRoom("r", getRooms());
-		//		Room r7 = RoomFactory.generateRoom("r", getRooms());
-		//		Room r8 = RoomFactory.generateRoom("t", getRooms());
-		//		Room r9 = RoomFactory.generateRoom("e", getRooms());
-		//		Room r10 = RoomFactory.generateRoom("r", getRooms());
+		//		Room r1 = RoomFactory.generateRoom("Entrance", getRooms());
+		//		Room r2 = RoomFactory.generateRoom("Arakne", getRooms());
+		//		Room r3 = RoomFactory.generateRoom("Normal", getRooms());
+		//		Room r4 = RoomFactory.generateRoom("Glouton", getRooms());
+		//		Room r5 = RoomFactory.generateRoom("Normal", getRooms());
+		//		Room r6 = RoomFactory.generateRoom("Normal", getRooms());
+		//		Room r7 = RoomFactory.generateRoom("Exit", getRooms());
+		//		Room r8 = RoomFactory.generateRoom("Trap", getRooms());
+		//		Room r9 = RoomFactory.generateRoom("Enigma", getRooms());
+		//		Room r10 = RoomFactory.generateRoom("Normal", getRooms());
 		//
 		//		setEntrance(r1);
 		//		r9.setNeedKey(true);
 		//		r4.setKey(new Key(9));
 		//		r5.setHasTorch(true);
 		//		r10.setHasTorch(true);
-		//		r7.setExit(true);
 		//
 		//		connectRoom(r1, Direction.NORTH, r2);
 		//		connectRoom(r1, Direction.WEST, r3);
@@ -70,7 +69,7 @@ public class Dungeon {
 		//
 		//		connectRoom(r9, Direction.WEST, r10);
 
-		rooms = DjGeneratorFromFile.generateDjFromFile(new File("testDJ.txt"));
+		rooms = DjGeneratorFromFile.generateDjFromFile(new File("Dj3.txt"));
 		for(Room r : rooms){
 			if(r.isEntrance())
 				entrance = r;
@@ -80,41 +79,6 @@ public class Dungeon {
 
 		initPlayer();
 	}
-
-	/**
-	 * @param room the first room we have
-	 * @param dir the direction from the first room where we want the connection
-	 * @param room2 -> the room we want to connect to another room
-	 * ex :  (room1, NORTH, room2) will connect the room2 on the north side of the room1
-	 * 
-	 */
-	public static void connectRoom(Room room, Direction dir, Room room2 ){
-		if(!room.alreadyConnected(room2)){
-			room.neighbors.put(dir, room2);
-			if(dir == Direction.NORTH){
-				room2.neighbors.put(Direction.SOUTH, room);
-				room2.hasSouthSide = true;	
-				room.hasNorthSide = true;	
-			}
-			else if(dir == Direction.EAST){
-				room2.neighbors.put(Direction.WEST, room);
-				room2.hasWestSide = true;	
-				room.hasEastSide = true;	
-			}
-			else if(dir == Direction.SOUTH){
-				room2.neighbors.put(Direction.NORTH, room);
-				room2.hasNorthSide = true;	
-				room.hasSouthSide = true;	
-			}
-			else if(dir == Direction.WEST){
-				room2.neighbors.put(Direction.EAST, room);
-				room2.hasEastSide = true;	
-				room.hasWestSide = true;	
-			}
-		}
-		//		else TODO throw an exception here
-	}
-
 
 
 	public void update() {
