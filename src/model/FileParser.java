@@ -46,11 +46,11 @@ public class FileParser {
 	 *         4éme colone = salle au sud 5éme colone = salle à l'ouest
 	 *         
 	 */
-	public ArrayList<String[]> parseLines() {
+	public ArrayList<String[]> parseLines(String separator) {
 		ArrayList<String[]> parsedLines = new ArrayList<>();
 		String[] tmpLine;
 		for (String line : allLine) {
-			tmpLine = line.split(" ");
+			tmpLine = line.split(separator);
 			parsedLines.add(tmpLine);
 		}
 		return parsedLines;

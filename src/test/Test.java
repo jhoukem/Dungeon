@@ -4,6 +4,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import rooms.Room;
 import rooms.RoomFactory;
@@ -13,6 +14,7 @@ import model.Direction;
 import model.DjGeneratorFromFile;
 import model.Dungeon;
 import model.FileParser;
+import model.Question;
 
 public class Test {
 
@@ -147,10 +149,21 @@ public class Test {
 		assertFalse(r7.hasEastSide);
 		assertFalse(r7.hasNorthSide);
 
-
-
-
 	}
+	
+	@org.junit.Test
+	public void testQuestion() {
+		Question q1 = new Question("qui est le plus puissant sith", "revan", "vador");
+				
+		assertTrue(q1.isCorrectAnswer(q1.getPossibleAnswer().indexOf("revan")+1));
+		assertFalse(q1.isCorrectAnswer(q1.getPossibleAnswer().indexOf("vador")+1));
+		
+		q1.addAnswer("empereur");
+		assertTrue(q1.getPossibleAnswer().contains(new String("empereur")));
+			
+		
+	}
+	
 
 
 }
