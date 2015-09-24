@@ -10,14 +10,14 @@ import items.Baton;
 import items.Sword;
 
 
-public class EnigmRoom extends Room {
+public class EnigmaRoom extends Room {
 
 	private Scanner	sc = new Scanner(System.in);
 	private int rep;
 	private Question question;
 	private boolean answered = false;
 
-	public EnigmRoom(int n) {
+	public EnigmaRoom(int n) {
 		super(n);
 		question = new Question("Es tu humain ?", "oui", "non");
 		question.addAnswer("peut etre");

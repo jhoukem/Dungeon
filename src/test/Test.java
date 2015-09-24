@@ -7,9 +7,11 @@ import java.io.File;
 import java.util.ArrayList;
 
 import exceptions.UnknowRoomTypeException;
+import rooms.EnigmaRoom;
+import rooms.MonsterRoom;
 import rooms.Room;
 import rooms.RoomFactory;
-
+import rooms.TrapRoom;
 import items.Key;
 import model.Direction;
 import model.GenerateFromFile;
@@ -22,7 +24,7 @@ public class Test {
 
 
 	@org.junit.Test
-	public void roomConnection() {
+	public void testRoomConnection() {
 		Dungeon dj = new Dungeon();
 		Room r1;
 		Room r2;
@@ -70,7 +72,7 @@ public class Test {
 	}
 
 	@org.junit.Test
-	public void playerMove() {
+	public void testPlayerMove() {
 		Dungeon dj = new Dungeon();
 		Room r1, r2;
 		try {
@@ -93,7 +95,7 @@ public class Test {
 	}
 
 	@org.junit.Test
-	public void playerOpenDoor() {
+	public void testPlayerOpenDoor() {
 		Dungeon dj = new Dungeon();
 		Room r1, r2;
 		try {
@@ -112,6 +114,50 @@ public class Test {
 		}
 	}
 
+	@org.junit.Test(expected=UnknowRoomTypeException.class)
+	public void testRoomFactoryExceptions() throws UnknowRoomTypeException {
+		RoomFactory.generateRoom("kjdfse", new ArrayList<Room>());
+	}
+	
+	@org.junit.Test
+	public void testRoomFactory() throws UnknowRoomTypeException{
+		Room r = RoomFactory.generateRoom("Normal", new ArrayList<Room>());
+		boolean isNormal = false;
+		if(r instanceof Room)
+			isNormal = true;
+		assertTrue(isNormal);
+		
+		Room r1 = RoomFactory.generateRoom("Enigma", new ArrayList<Room>());
+		boolean isEnigma = false;
+		if(r1 instanceof EnigmaRoom)
+			isEnigma = true;
+		assertTrue(isEnigma);
+		
+		Room r2 = RoomFactory.generateRoom("Arakne", new ArrayList<Room>());
+		boolean isMonster = false;
+		if(r2 instanceof MonsterRoom)
+			isMonster = true;
+		assertTrue(isMonster);
+		
+		Room r3 = RoomFactory.generateRoom("Exit", new ArrayList<Room>());
+		boolean isExit = false;
+		if(r3 instanceof Room && r3.isExit())
+			isExit = true;
+		assertTrue(isExit);
+		
+		Room r4 = RoomFactory.generateRoom("Entrance", new ArrayList<Room>());
+		boolean isEntrance = false;
+		if(r4 instanceof Room && r4.isEntrance())
+			isEntrance = true;
+		assertTrue(isEntrance);
+		
+		Room r5 = RoomFactory.generateRoom("Trap", new ArrayList<Room>());
+		boolean isTrap = false;
+		if(r5 instanceof TrapRoom)
+			isTrap = true;
+		assertTrue(isTrap);
+		
+	}
 
 	//	@org.junit.Test
 	//	public void testParseFile() {

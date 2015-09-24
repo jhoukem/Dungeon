@@ -15,7 +15,7 @@ public class RoomFactory {
 		Room r = null;
 
 		if(s.equals("Enigma"))
-			r = new EnigmRoom(rooms.size() + 1);
+			r = new EnigmaRoom(rooms.size() + 1);
 		else if(s.equals("Normal"))
 			r = new Room(rooms.size() + 1);
 		else if(s.equals("Exit")){

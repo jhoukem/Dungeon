@@ -24,8 +24,7 @@ public class Dungeon {
 	}
 
 	public void initPlayer() {
-		//		p.setCurrentRoom(entrance);
-		p.setCurrentRoom(rooms.get(0));
+		p.setCurrentRoom(entrance);
 	}
 
 	public boolean hasExit(){
