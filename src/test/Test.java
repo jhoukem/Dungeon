@@ -1,17 +1,20 @@
 package test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.util.ArrayList;
 
+import exceptions.DungeonTooSmallException;
 import exceptions.UnknowRoomTypeException;
 import items.Key;
 import model.Direction;
 import model.Dungeon;
 import model.GenerateFromFile;
 import model.Question;
+import model.RandomGenerate;
 import rooms.EnigmaRoom;
 import rooms.MonsterRoom;
 import rooms.Room;
@@ -117,7 +120,7 @@ public class Test {
 	public void testRoomFactoryExceptions() throws UnknowRoomTypeException {
 		RoomFactory.generateRoom("kjdfse", new ArrayList<Room>());
 	}
-	
+
 	@org.junit.Test
 	public void testRoomFactory() throws UnknowRoomTypeException{
 		Room r = RoomFactory.generateRoom("Normal", new ArrayList<Room>());
@@ -125,99 +128,99 @@ public class Test {
 		if(r instanceof Room)
 			isNormal = true;
 		assertTrue(isNormal);
-		
+
 		Room r1 = RoomFactory.generateRoom("Enigma", new ArrayList<Room>());
 		boolean isEnigma = false;
 		if(r1 instanceof EnigmaRoom)
 			isEnigma = true;
 		assertTrue(isEnigma);
-		
+
 		Room r2 = RoomFactory.generateRoom("Arakne", new ArrayList<Room>());
 		boolean isMonster = false;
 		if(r2 instanceof MonsterRoom)
 			isMonster = true;
 		assertTrue(isMonster);
-		
+
 		r2 = RoomFactory.generateRoom("Glouton", new ArrayList<Room>());
 		isMonster = false;
 		if(r2 instanceof MonsterRoom)
 			isMonster = true;
 		assertTrue(isMonster);
-		
+
 		Room r3 = RoomFactory.generateRoom("Exit", new ArrayList<Room>());
 		boolean isExit = false;
 		if(r3 instanceof Room && r3.isExit())
 			isExit = true;
 		assertTrue(isExit);
-		
+
 		Room r4 = RoomFactory.generateRoom("Entrance", new ArrayList<Room>());
 		boolean isEntrance = false;
 		if(r4 instanceof Room && r4.isEntrance())
 			isEntrance = true;
 		assertTrue(isEntrance);
-		
+
 		Room r5 = RoomFactory.generateRoom("Trap", new ArrayList<Room>());
 		boolean isTrap = false;
 		if(r5 instanceof TrapRoom)
 			isTrap = true;
 		assertTrue(isTrap);
-		
+
 	}
 
-		@org.junit.Test
-		public void testParseFile() {
-			Dungeon dj = new Dungeon();
-			dj.setRooms(GenerateFromFile.generateDjFromFile(new File("testDj.txt")));
-			//Room1
-			Room r1 = dj.getRooms().get(0);
-			assertTrue(r1.hasNorthSide);
-			assertTrue(r1.hasWestSide);
-			assertFalse(r1.hasEastSide);
-			assertFalse(r1.hasSouthSide);
-	
-			//Room2
-			Room r2 = dj.getRooms().get(1);
-			assertTrue(r2.hasNorthSide);
-			assertTrue(r2.hasSouthSide);
-			assertFalse(r2.hasEastSide);
-			assertFalse(r2.hasWestSide);
-	
-			//Room3
-			Room r3 = dj.getRooms().get(2);
-			assertTrue(r3.hasNorthSide);
-			assertTrue(r3.hasEastSide);
-			assertFalse(r3.hasWestSide);
-			assertFalse(r3.hasSouthSide);
-	
-			//Room4
-			Room r4 = dj.getRooms().get(3);
-			assertTrue(r4.hasNorthSide);
-			assertTrue(r4.hasWestSide);
-			assertTrue(r4.hasSouthSide);
-			assertFalse(r4.hasEastSide);
-	
-			//Room5
-			Room r5 = dj.getRooms().get(4);
-			assertTrue(r5.hasSouthSide);
-			assertFalse(r5.hasWestSide);
-			assertFalse(r5.hasEastSide);
-			assertFalse(r5.hasNorthSide);
-	
-			//Room6
-			Room r6 = dj.getRooms().get(5);
-			assertTrue(r6.hasEastSide);
-			assertFalse(r6.hasWestSide);
-			assertFalse(r6.hasNorthSide);
-			assertFalse(r6.hasSouthSide);
-	
-			//Room7
-			Room r7 = dj.getRooms().get(6);
-			assertTrue(r7.hasSouthSide);
-			assertFalse(r7.hasWestSide);
-			assertFalse(r7.hasEastSide);
-			assertFalse(r7.hasNorthSide);
-	
-		}
+	@org.junit.Test
+	public void testParseFile() {
+		Dungeon dj = new Dungeon();
+		dj.setRooms(GenerateFromFile.generateDjFromFile(new File("testDj.txt")));
+		//Room1
+		Room r1 = dj.getRooms().get(0);
+		assertTrue(r1.hasNorthSide);
+		assertTrue(r1.hasWestSide);
+		assertFalse(r1.hasEastSide);
+		assertFalse(r1.hasSouthSide);
+
+		//Room2
+		Room r2 = dj.getRooms().get(1);
+		assertTrue(r2.hasNorthSide);
+		assertTrue(r2.hasSouthSide);
+		assertFalse(r2.hasEastSide);
+		assertFalse(r2.hasWestSide);
+
+		//Room3
+		Room r3 = dj.getRooms().get(2);
+		assertTrue(r3.hasNorthSide);
+		assertTrue(r3.hasEastSide);
+		assertFalse(r3.hasWestSide);
+		assertFalse(r3.hasSouthSide);
+
+		//Room4
+		Room r4 = dj.getRooms().get(3);
+		assertTrue(r4.hasNorthSide);
+		assertTrue(r4.hasWestSide);
+		assertTrue(r4.hasSouthSide);
+		assertFalse(r4.hasEastSide);
+
+		//Room5
+		Room r5 = dj.getRooms().get(4);
+		assertTrue(r5.hasSouthSide);
+		assertFalse(r5.hasWestSide);
+		assertFalse(r5.hasEastSide);
+		assertFalse(r5.hasNorthSide);
+
+		//Room6
+		Room r6 = dj.getRooms().get(5);
+		assertTrue(r6.hasEastSide);
+		assertFalse(r6.hasWestSide);
+		assertFalse(r6.hasNorthSide);
+		assertFalse(r6.hasSouthSide);
+
+		//Room7
+		Room r7 = dj.getRooms().get(6);
+		assertTrue(r7.hasSouthSide);
+		assertFalse(r7.hasWestSide);
+		assertFalse(r7.hasEastSide);
+		assertFalse(r7.hasNorthSide);
+
+	}
 
 	@org.junit.Test
 	public void testQuestion() {
@@ -228,6 +231,55 @@ public class Test {
 		assertTrue(q1.getPossibleAnswer().contains(new String("empereur")));
 	}
 
+	@org.junit.Test(expected=DungeonTooSmallException.class)
+	public void testRandomDjException() throws DungeonTooSmallException, UnknowRoomTypeException {
+		ArrayList<Room> rooms = RandomGenerate.generate(3);
+		rooms = RandomGenerate.generate(2);
+		rooms = RandomGenerate.generate(1);
+		rooms = RandomGenerate.generate(0);
+	}
+
+	@org.junit.Test
+	public void testRandomDjSize() {
+		ArrayList<Room> rooms = new ArrayList<Room>();
+		RandomGenerate.generateLinearDj(4, rooms);
+		assertEquals(rooms.size(), 4);
+
+		ArrayList<Room> rooms2 = new ArrayList<Room>();
+		RandomGenerate.generateLinearDj(12, rooms2);
+		assertEquals(rooms2.size(), 12);
+
+		ArrayList<Room> rooms3 = new ArrayList<Room>();
+		RandomGenerate.generateLinearDj(47, rooms3);
+		assertEquals(rooms3.size(),47);
+	}
+
+	@org.junit.Test
+	public void testLinearDjConnection() {
+		for(int i = 0; i < 10; i++){
+			ArrayList<Room> rooms = new ArrayList<Room>();
+			RandomGenerate.generateLinearDj((int)(Math.random()*22+4), rooms);
+			assertTrue(rooms.get(0).getNeighborsCount() == 1);
+			for (int j = 1; j < rooms.size() - 1; j++) {
+				assertEquals(rooms.get(j).getNeighborsCount(),2);
+			}
+			assertEquals(rooms.get(rooms.size()-1).getNeighborsCount(),1);
+		}
+	}
+
+	@org.junit.Test
+	public void testRandomDjConnection() {
+		try {
+			for(int i = 0; i < 10; i++){
+				ArrayList<Room> rooms = RandomGenerate.generate(4);
+				assertEquals(rooms.size(), 9);
+//				rooms = RandomGenerate.generate(5);
+//				assertTrue(rooms.size() == 1);
+			}	
+		} catch (DungeonTooSmallException e) {
+			e.printStackTrace();
+		}
+	}
 
 
 }

@@ -47,7 +47,12 @@ public class RoomFactory {
 	 * 
 	 */
 	public static void connectRoom(Room room, Direction dir, Room room2 ){
-		if(!room.alreadyConnected(room2)){
+		if(room == room2){
+			System.out.println("Can't connect a room with itself");
+		}
+		
+		//usefull when we load the dj from a file
+		if(!room.alreadyConnected(room2) && room.getNextRoom(dir) == null){
 			room.neighbors.put(dir, room2);
 			if(dir == Direction.NORTH){
 				room2.neighbors.put(Direction.SOUTH, room);
@@ -70,7 +75,6 @@ public class RoomFactory {
 				room.hasWestSide = true;	
 			}
 		}
-		//		else TODO throw an exception here
 	}
 
 	

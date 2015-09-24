@@ -31,7 +31,7 @@ public class Room {
 	}
 
 	protected void displayNum() {
-		System.out.println("Room nï¿½"+getNumero());	
+		System.out.println("Room n°"+getNumero());	
 	}
 
 	public void checkItem(Player p){
@@ -117,6 +117,37 @@ public class Room {
 
 	public int getNumero() {
 		return numero;
+	}
+
+	public String toString(){
+		String s;
+		s="Room : "+numero;
+		if(neighbors.get(Direction.NORTH) != null){
+			s+= " NORTH : "+ getNextRoom(Direction.NORTH).getNumero();
+		}
+		if(neighbors.get(Direction.EAST) != null){
+			s+= " EAST : "+ getNextRoom(Direction.EAST).getNumero();
+		}
+		if(neighbors.get(Direction.SOUTH) != null){
+			s+= " SOUTH : "+ getNextRoom(Direction.SOUTH).getNumero();
+		}
+		if(neighbors.get(Direction.WEST) != null){
+			s+= " WEST : "+ getNextRoom(Direction.WEST).getNumero();
+		}
+		return s;
+	}
+
+	public int getNeighborsCount(){
+		int i = 0;
+		if(hasNorthSide)
+			i++;
+		if (hasEastSide) 
+			i++;
+		if (hasSouthSide) 
+			i++;
+		if (hasWestSide) 
+			i++;
+		return i;
 	}
 
 }

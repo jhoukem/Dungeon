@@ -3,6 +3,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import exceptions.DungeonTooSmallException;
+import exceptions.UnknowRoomTypeException;
 import rooms.Room;
 import rooms.RoomFactory;
 
@@ -34,49 +36,24 @@ public class Dungeon {
 			return false;
 	}
 
+
 	public void init(){
 
-		//		Room r1 = RoomFactory.generateRoom("Entrance", getRooms());
-		//		Room r2 = RoomFactory.generateRoom("Arakne", getRooms());
-		//		Room r3 = RoomFactory.generateRoom("Normal", getRooms());
-		//		Room r4 = RoomFactory.generateRoom("Glouton", getRooms());
-		//		Room r5 = RoomFactory.generateRoom("Normal", getRooms());
-		//		Room r6 = RoomFactory.generateRoom("Normal", getRooms());
-		//		Room r7 = RoomFactory.generateRoom("Exit", getRooms());
-		//		Room r8 = RoomFactory.generateRoom("Trap", getRooms());
-		//		Room r9 = RoomFactory.generateRoom("Enigma", getRooms());
-		//		Room r10 = RoomFactory.generateRoom("Normal", getRooms());
-		//
-		//		setEntrance(r1);
-		//		r9.setNeedKey(true);
-		//		r4.setKey(new Key(9));
-		//		r5.setHasTorch(true);
-		//		r10.setHasTorch(true);
-		//
-		//		connectRoom(r1, Direction.NORTH, r2);
-		//		connectRoom(r1, Direction.WEST, r3);
-		//		connectRoom(r2, Direction.NORTH, r7);
-		//
-		//		connectRoom(r3, Direction.SOUTH, r4);
-		//		connectRoom(r3, Direction.WEST, r5);
-		//		connectRoom(r3, Direction.NORTH, r6);
-		//
-		//		connectRoom(r6, Direction.NORTH, r8);
-		//		connectRoom(r6, Direction.WEST, r9);
-		//		connectRoom(r6, Direction.EAST, r2);
-		//
-		//
-		//		connectRoom(r9, Direction.WEST, r10);
+		//		rooms = GenerateFromFile.generateDjFromFile(new File("testDj2.txt"));
+		try {
+			rooms = RandomGenerate.generate(4);
+			for(Room r : rooms){
+				if(r.isEntrance())
+					entrance = r;
+				else if (r.isExit())
+					exit = r;
+			}
+			initPlayer();
 
-		rooms = GenerateFromFile.generateDjFromFile(new File("testDj2.txt"));
-		for(Room r : rooms){
-			if(r.isEntrance())
-				entrance = r;
-			else if (r.isExit())
-				exit = r;
+
+		} catch (DungeonTooSmallException e) {
+			e.printStackTrace();
 		}
-
-		initPlayer();
 	}
 
 
@@ -87,6 +64,7 @@ public class Dungeon {
 		line = sc.nextLine();
 		executeCommand(line);
 		p.getCurrentRoom().act(p);
+		
 	}
 
 
