@@ -12,8 +12,6 @@ public class Room {
 	private final int numero;
 
 	private boolean needKey = false;
-	public boolean hasEastSide, hasWestSide, hasNorthSide, hasSouthSide = false;
-
 	private boolean isExit = false;
 	private boolean isEntrance = false;
 	private boolean hasTorch = false;
@@ -66,7 +64,7 @@ public class Room {
 		else
 			return false;
 	}
-	protected boolean isANumber(String line) {
+	public boolean isANumber(String line) {
 		if(line.isEmpty())
 			return false;
 		for(int i = 0; i < line.length(); i++){
@@ -139,13 +137,13 @@ public class Room {
 
 	public int getNeighborsCount(){
 		int i = 0;
-		if(hasNorthSide)
+		if(neighbors.containsKey(Direction.NORTH))
 			i++;
-		if (hasEastSide) 
+		if (neighbors.containsKey(Direction.EAST)) 
 			i++;
-		if (hasSouthSide) 
+		if (neighbors.containsKey(Direction.SOUTH)) 
 			i++;
-		if (hasWestSide) 
+		if (neighbors.containsKey(Direction.WEST)) 
 			i++;
 		return i;
 	}

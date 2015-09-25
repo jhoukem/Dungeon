@@ -1,5 +1,6 @@
 package exceptions;
 
+@SuppressWarnings("serial")
 public class DungeonTooSmallException extends Exception {
 
 	public DungeonTooSmallException() {

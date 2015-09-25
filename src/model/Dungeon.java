@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import exceptions.DungeonTooSmallException;
-import exceptions.UnknowRoomTypeException;
+import exceptions.MissingExitRoom;
 import rooms.Room;
-import rooms.RoomFactory;
-
-import items.Key;
 
 
 public class Dungeon {
@@ -25,35 +22,35 @@ public class Dungeon {
 
 	}
 
-	public void initPlayer() {
-		p.setCurrentRoom(entrance);
+	public void randomInit(int size) throws DungeonTooSmallException, MissingExitRoom{
+		rooms = RandomGenerate.generate(size);
+		initExit();
+		initPlayer();
 	}
 
+	public void initFromFile(String s) throws MissingExitRoom{
+		rooms = GenerateFromFile.generateDjFromFile(new File(s));
+		initExit();
+		initPlayer();
+	}
+
+	private void initExit() throws MissingExitRoom {
+		for(Room r : rooms){
+			if(r.isEntrance())
+				entrance = r;
+			else if (r.isExit())
+				exit = r;
+		}
+		if(!hasExit())
+			throw new MissingExitRoom();
+	}
+	
+	
 	public boolean hasExit(){
 		if(exit != null)
 			return true;
 		else 
 			return false;
-	}
-
-
-	public void init(){
-
-		//		rooms = GenerateFromFile.generateDjFromFile(new File("testDj2.txt"));
-		try {
-			rooms = RandomGenerate.generate(4);
-			for(Room r : rooms){
-				if(r.isEntrance())
-					entrance = r;
-				else if (r.isExit())
-					exit = r;
-			}
-			initPlayer();
-
-
-		} catch (DungeonTooSmallException e) {
-			e.printStackTrace();
-		}
 	}
 
 
@@ -64,16 +61,18 @@ public class Dungeon {
 		line = sc.nextLine();
 		executeCommand(line);
 		p.getCurrentRoom().act(p);
-		
+
 	}
 
+	public void initPlayer() {
+		p.setCurrentRoom(entrance);
+	}
 
 	public boolean isGameOver(){
 		return p.getHealth() < 1 || p.getCurrentRoom().isExit();
 	}
 
 	public void executeCommand(String line) {
-
 
 		if(line.equals("potion")){
 			p.useHealthPotion();
@@ -83,7 +82,7 @@ public class Dungeon {
 		}
 		else if(line.equals("n")){
 
-			if(p.getCurrentRoom().hasNorthSide){
+			if(p.getCurrentRoom().neighbors.containsKey(Direction.NORTH)){
 				if(p.getCurrentRoom().getNextRoom(Direction.NORTH ).isNeedKey() && // if the next room need a key 
 						!p.hasKeyForRoom(p.getCurrentRoom().getNextRoom(Direction.NORTH ))){ // and if the player don't have the key
 					System.out.println("You need a key to enter in this room");
@@ -102,7 +101,7 @@ public class Dungeon {
 
 		}
 		else if(line.equals("e")){
-			if(p.getCurrentRoom().hasEastSide){
+			if(p.getCurrentRoom().neighbors.containsKey(Direction.EAST)){
 				if(p.getCurrentRoom().getNextRoom(Direction.EAST ).isNeedKey() && // if the next room need a key 
 						!p.hasKeyForRoom(p.getCurrentRoom().getNextRoom(Direction.EAST ))){ // and if the player don't have the key
 					System.out.println("You need a key to enter in this room");
@@ -123,7 +122,7 @@ public class Dungeon {
 
 		}
 		else if(line.equals("s")){
-			if(p.getCurrentRoom().hasSouthSide){
+			if(p.getCurrentRoom().neighbors.containsKey(Direction.SOUTH)){
 				if(p.getCurrentRoom().getNextRoom(Direction.SOUTH ).isNeedKey() && // if the next room need a key 
 						!p.hasKeyForRoom(p.getCurrentRoom().getNextRoom(Direction.SOUTH ))){ // and if the player don't have the key
 					System.out.println("You need a key to enter in this room");
@@ -144,7 +143,7 @@ public class Dungeon {
 
 		}
 		else if(line.equals("w")){
-			if(p.getCurrentRoom().hasWestSide){
+			if(p.getCurrentRoom().neighbors.containsKey(Direction.WEST)){
 				if(p.getCurrentRoom().getNextRoom(Direction.WEST ).isNeedKey() && // if the next room need a key 
 						!p.hasKeyForRoom(p.getCurrentRoom().getNextRoom(Direction.WEST ))){ // and if the player don't have the key
 					System.out.println("You need a key to enter in this room");
@@ -154,13 +153,11 @@ public class Dungeon {
 					p.setCurrentRoom(p.getCurrentRoom().getNextRoom(Direction.WEST));//change the current room
 					playerMoved = true;	
 				}
-
 			}
 			else{
 				playerMoved = false;	
 				System.out.println("There is no way on west side !");
 			}
-
 		}
 		else{
 			System.out.println("Please write a direction like 'north', 'east', 'south' or 'west' .");

@@ -1,5 +1,6 @@
 package exceptions;
 
+@SuppressWarnings("serial")
 public class UnknowRoomTypeException extends Exception {
 
 	public UnknowRoomTypeException() {

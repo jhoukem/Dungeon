@@ -38,7 +38,7 @@ public class RoomFactory {
 
 		return r;
 	}
-	
+
 	/**
 	 * @param room the first room we have
 	 * @param dir the direction from the first room where we want the connection
@@ -50,33 +50,22 @@ public class RoomFactory {
 		if(room == room2){
 			System.out.println("Can't connect a room with itself");
 		}
-		
 		//usefull when we load the dj from a file
 		if(!room.alreadyConnected(room2) && room.getNextRoom(dir) == null){
 			room.neighbors.put(dir, room2);
-			if(dir == Direction.NORTH){
+			if(dir == Direction.NORTH)
 				room2.neighbors.put(Direction.SOUTH, room);
-				room2.hasSouthSide = true;	
-				room.hasNorthSide = true;	
-			}
-			else if(dir == Direction.EAST){
+			else if(dir == Direction.EAST)
 				room2.neighbors.put(Direction.WEST, room);
-				room2.hasWestSide = true;	
-				room.hasEastSide = true;	
-			}
-			else if(dir == Direction.SOUTH){
+
+			else if(dir == Direction.SOUTH)
 				room2.neighbors.put(Direction.NORTH, room);
-				room2.hasNorthSide = true;	
-				room.hasSouthSide = true;	
-			}
-			else if(dir == Direction.WEST){
+
+			else if(dir == Direction.WEST)
 				room2.neighbors.put(Direction.EAST, room);
-				room2.hasEastSide = true;	
-				room.hasWestSide = true;	
-			}
 		}
 	}
 
-	
+
 
 }

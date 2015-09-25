@@ -8,6 +8,7 @@ import items.HealPotion;
 import items.Key;
 import items.Torch;
 import items.Weapon;
+import monsters.Monster;
 
 
 public class Player {
@@ -22,7 +23,7 @@ public class Player {
 
 
 	public Player(){
-		health = 10;
+		health = 100;
 		secours.add(new HealPotion());
 	}
 
@@ -30,8 +31,17 @@ public class Player {
 		return health > 0;
 	}
 
+	public int hit(Monster m){
+		int dmg = getWp().getPower();
+		int alea = (int)(Math.random()*21) * getWp().getPower() / 100;
+		dmg += Math.random()*101 > 50 ?	alea : -alea;
+		
+		m.setHealth(m.getHealth() - dmg);
+		return dmg;
+	}
+
 	public void useHealthPotion(){
-//		if(heath == H)
+		//		if(heath == H)
 		if(!secours.isEmpty()){
 			HealPotion p = secours.get(0);
 			secours.remove(p);

@@ -1,5 +1,6 @@
 package items;
 
+import model.Direction;
 import rooms.Room;
 
 public class Torch {
@@ -19,16 +20,16 @@ public class Torch {
 
 	public void use(Room r){
 		if(fire > 1){
-//			fire --;
+			fire --;
 			System.out.println("Possible directions : (Torch = "+fire+") ");
 			String s = "";
-			if(r.hasEastSide)
-				s+= "East\n";
-			if(r.hasNorthSide)
+			if(r.neighbors.containsKey(Direction.NORTH))
 				s+= "North\n";
-			if(r.hasSouthSide)
+			if(r.neighbors.containsKey(Direction.EAST))
+				s+= "East\n";
+			if(r.neighbors.containsKey(Direction.SOUTH))
 				s+= "South\n";
-			if(r.hasWestSide)
+			if(r.neighbors.containsKey(Direction.WEST))
 				s+= "West\n";
 			System.out.println(s);	
 		}

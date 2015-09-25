@@ -56,7 +56,7 @@ public class EnigmaRoom extends Room {
 	}
 
 
-	private void giveRandomWeapon(Player p) {
+	public void giveRandomWeapon(Player p) {
 		if((int) (Math.random()*101) > 50){
 			p.setWp(new Sword());
 			System.out.println("I give you a sword !");
@@ -87,7 +87,7 @@ public class EnigmaRoom extends Room {
 		return rep;
 	}
 
-	private boolean isACorrectNumber(int num) {
+	public boolean isACorrectNumber(int num) {
 		if(num > 0 && num < question.getPossibleAnswer().size() + 1)
 			return true;
 		return false;

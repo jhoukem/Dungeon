@@ -18,7 +18,7 @@ public static boolean exitNeedKey;
 		ArrayList<Room> rooms = new ArrayList<Room>();
 		generateLinearDj(size,rooms);
 		generateLabyPath(size/2,rooms);
-
+		
 		return rooms;
 	}
 
@@ -88,7 +88,6 @@ public static boolean exitNeedKey;
 				beforeExit = RoomFactory.generateRoom("Normal", rooms);
 				exit.setNeedKey(true);
 				exitNeedKey = true;
-				System.out.println("IN");
 			}
 			else// the exit is not locked but the room before contains a Glouton
 				beforeExit = RoomFactory.generateRoom("Glouton", rooms);

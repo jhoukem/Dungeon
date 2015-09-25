@@ -58,21 +58,21 @@ public class MonsterRoom extends Room {
 			displayInfos(p);
 			int choice = getAnwser();
 			if(choice == 1){
-				monster.setHealth(monster.getHealth()-p.getWp().getPower());
-				monster.act(p);
-				System.out.println("You make "+p.getWp().getPower()+" damages to the monster");
-				System.out.println("The monster makes you "+monster.getPower()+" damages");
+				int pdmg = p.hit(monster);
+				System.out.println("You make "+pdmg+" damages to the monster");
+				if(monster.isAlive()){
+				int mdmg = monster.hit(p);
+				System.out.println("The monster makes you "+mdmg+" damages");
+				}
 			}
 			else if(choice == 2){
 				if(Math.random()*101 > 85){
-					monster.setHealth(monster.getHealth()-p.getWp().getPower());
 					System.out.println("Successful dodge !");
-					System.out.println("You make "+p.getWp().getPower()+" damages to the monster");
+					System.out.println("You make "+p.hit(monster)+" damages to the monster");
 				}
 				else{
 					System.out.println("You failed to dodge the monster attack");
-					System.out.println("The monster makes you "+monster.getPower()+" damages");
-					monster.act(p);
+					System.out.println("The monster makes you "+monster.hit(p)+" damages");
 				}
 			}
 			else if(choice == 3){
@@ -82,9 +82,8 @@ public class MonsterRoom extends Room {
 					p.setCurrentRoom(p.getPreviousRoom());
 				}
 				else{
-					monster.act(p);
 					System.out.println("You failed to escape from the monster");
-					System.out.println("The monster makes you "+monster.getPower()+" damages");
+					System.out.println("The monster makes you "+monster.hit(p)+" damages");
 				}
 					
 			}

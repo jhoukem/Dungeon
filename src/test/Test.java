@@ -9,12 +9,17 @@ import java.util.ArrayList;
 
 import exceptions.DungeonTooSmallException;
 import exceptions.UnknowRoomTypeException;
+import items.Baton;
 import items.Key;
+import items.Sword;
+import items.Weapon;
 import model.Direction;
 import model.Dungeon;
 import model.GenerateFromFile;
+import model.Player;
 import model.Question;
 import model.RandomGenerate;
+import monsters.Arakne;
 import rooms.EnigmaRoom;
 import rooms.MonsterRoom;
 import rooms.Room;
@@ -23,8 +28,52 @@ import rooms.TrapRoom;
 
 public class Test {
 
+	
+	
+	@org.junit.Test
+	public void testPlayerHit() {
+		Player p = new Player();
+		Arakne a  = new Arakne();
+		int arakneLife = a.getHealth();
+		int playerLife = p .getHealth();
+		p.hit(a);
+		a.hit(p);
+		assertTrue(arakneLife != a.getHealth());
+		assertTrue(playerLife != p.getHealth());
+	}
+	
+	@org.junit.Test
+	public void testIsANumber() {
+		Room r = new Room(1);
+		assertFalse(r.isANumber(""));
+		assertFalse(r.isANumber("sqdqdq"));
+		assertFalse(r.isANumber("  1   ef"));
+		assertFalse(r.isANumber(" 12"));
+		assertFalse(r.isANumber(" 1 5 "));
+		assertTrue(r.isANumber("1"));
+		assertTrue(r.isANumber("2"));
+		assertTrue(r.isANumber("15"));
+	}
+	
+	@org.junit.Test
+	public void testRandomWeapon() {
+		Player p = new Player();
+		EnigmaRoom er = new EnigmaRoom(1);
+		for (int i = 0; i < 20; i++) {
+			er.giveRandomWeapon(p);
+			Weapon w = p.getWp();
+			assertTrue(w instanceof Sword || w instanceof Baton);
+		}
+		
+	}
 
-
+	@org.junit.Test
+	public void testIsCorrectAnswer() {
+		EnigmaRoom er = new EnigmaRoom(1);
+		assertFalse(er.isACorrectNumber(0));
+		assertFalse(er.isACorrectNumber(-1));
+		assertTrue(er.isACorrectNumber(2));
+	}
 	@org.junit.Test
 	public void testRoomConnection() {
 		Dungeon dj = new Dungeon();
@@ -33,26 +82,26 @@ public class Test {
 		try {
 			r1 = RoomFactory.generateRoom("Normal", dj.getRooms());
 			r2 = RoomFactory.generateRoom("Normal", dj.getRooms());
-			assertFalse(r1.hasNorthSide);
-			assertFalse(r1.hasEastSide);
-			assertFalse(r1.hasWestSide);
-			assertFalse(r1.hasSouthSide);
+			assertFalse(r1.neighbors.containsKey(Direction.NORTH));
+			assertFalse(r1.neighbors.containsKey(Direction.EAST));
+			assertFalse(r1.neighbors.containsKey(Direction.WEST));
+			assertFalse(r1.neighbors.containsKey(Direction.SOUTH));
 
-			assertFalse(r2.hasNorthSide);
-			assertFalse(r2.hasEastSide);
-			assertFalse(r2.hasWestSide);
-			assertFalse(r2.hasSouthSide);
+			assertFalse(r2.neighbors.containsKey(Direction.NORTH));
+			assertFalse(r2.neighbors.containsKey(Direction.EAST));
+			assertFalse(r2.neighbors.containsKey(Direction.WEST));
+			assertFalse(r2.neighbors.containsKey(Direction.SOUTH));
 
 			RoomFactory.connectRoom(r1, Direction.NORTH, r2);
 
-			assertTrue(r1.hasNorthSide);
-			assertFalse(r1.hasEastSide);
-			assertFalse(r1.hasWestSide);
-			assertFalse(r1.hasSouthSide);
-			assertTrue(r2.hasSouthSide);
-			assertFalse(r2.hasEastSide);
-			assertFalse(r2.hasWestSide);
-			assertFalse(r2.hasNorthSide);
+			assertTrue(r1.neighbors.containsKey(Direction.NORTH));
+			assertFalse(r1.neighbors.containsKey(Direction.EAST));
+			assertFalse(r1.neighbors.containsKey(Direction.WEST));
+			assertFalse(r1.neighbors.containsKey(Direction.SOUTH));
+			assertTrue(r2.neighbors.containsKey(Direction.SOUTH));
+			assertFalse(r2.neighbors.containsKey(Direction.EAST));
+			assertFalse(r2.neighbors.containsKey(Direction.WEST));
+			assertFalse(r2.neighbors.containsKey(Direction.NORTH));
 
 			assertTrue(r1.neighbors.containsKey(Direction.NORTH));
 			assertTrue(r2.neighbors.containsKey(Direction.SOUTH));
@@ -173,52 +222,52 @@ public class Test {
 		dj.setRooms(GenerateFromFile.generateDjFromFile(new File("testDj.txt")));
 		//Room1
 		Room r1 = dj.getRooms().get(0);
-		assertTrue(r1.hasNorthSide);
-		assertTrue(r1.hasWestSide);
-		assertFalse(r1.hasEastSide);
-		assertFalse(r1.hasSouthSide);
+		assertTrue(r1.neighbors.containsKey(Direction.NORTH));
+		assertTrue(r1.neighbors.containsKey(Direction.WEST));
+		assertFalse(r1.neighbors.containsKey(Direction.EAST));
+		assertFalse(r1.neighbors.containsKey(Direction.SOUTH));
 
 		//Room2
 		Room r2 = dj.getRooms().get(1);
-		assertTrue(r2.hasNorthSide);
-		assertTrue(r2.hasSouthSide);
-		assertFalse(r2.hasEastSide);
-		assertFalse(r2.hasWestSide);
+		assertTrue(r2.neighbors.containsKey(Direction.NORTH));
+		assertTrue(r2.neighbors.containsKey(Direction.SOUTH));
+		assertFalse(r2.neighbors.containsKey(Direction.EAST));
+		assertFalse(r2.neighbors.containsKey(Direction.WEST));
 
 		//Room3
 		Room r3 = dj.getRooms().get(2);
-		assertTrue(r3.hasNorthSide);
-		assertTrue(r3.hasEastSide);
-		assertFalse(r3.hasWestSide);
-		assertFalse(r3.hasSouthSide);
+		assertTrue(r3.neighbors.containsKey(Direction.NORTH));
+		assertTrue(r3.neighbors.containsKey(Direction.EAST));
+		assertFalse(r3.neighbors.containsKey(Direction.WEST));
+		assertFalse(r3.neighbors.containsKey(Direction.SOUTH));
 
 		//Room4
 		Room r4 = dj.getRooms().get(3);
-		assertTrue(r4.hasNorthSide);
-		assertTrue(r4.hasWestSide);
-		assertTrue(r4.hasSouthSide);
-		assertFalse(r4.hasEastSide);
+		assertTrue(r4.neighbors.containsKey(Direction.NORTH));
+		assertTrue(r4.neighbors.containsKey(Direction.WEST));
+		assertTrue(r4.neighbors.containsKey(Direction.SOUTH));
+		assertFalse(r4.neighbors.containsKey(Direction.EAST));
 
 		//Room5
 		Room r5 = dj.getRooms().get(4);
-		assertTrue(r5.hasSouthSide);
-		assertFalse(r5.hasWestSide);
-		assertFalse(r5.hasEastSide);
-		assertFalse(r5.hasNorthSide);
+		assertTrue(r5.neighbors.containsKey(Direction.SOUTH));
+		assertFalse(r5.neighbors.containsKey(Direction.WEST));
+		assertFalse(r5.neighbors.containsKey(Direction.EAST));
+		assertFalse(r5.neighbors.containsKey(Direction.NORTH));
 
 		//Room6
 		Room r6 = dj.getRooms().get(5);
-		assertTrue(r6.hasEastSide);
-		assertFalse(r6.hasWestSide);
-		assertFalse(r6.hasNorthSide);
-		assertFalse(r6.hasSouthSide);
+		assertTrue(r6.neighbors.containsKey(Direction.EAST));
+		assertFalse(r6.neighbors.containsKey(Direction.WEST));
+		assertFalse(r6.neighbors.containsKey(Direction.NORTH));
+		assertFalse(r6.neighbors.containsKey(Direction.SOUTH));
 
 		//Room7
 		Room r7 = dj.getRooms().get(6);
-		assertTrue(r7.hasSouthSide);
-		assertFalse(r7.hasWestSide);
-		assertFalse(r7.hasEastSide);
-		assertFalse(r7.hasNorthSide);
+		assertTrue(r7.neighbors.containsKey(Direction.SOUTH));
+		assertFalse(r7.neighbors.containsKey(Direction.WEST));
+		assertFalse(r7.neighbors.containsKey(Direction.EAST));
+		assertFalse(r7.neighbors.containsKey(Direction.NORTH));
 
 	}
 
@@ -273,8 +322,8 @@ public class Test {
 			for(int i = 0; i < 10; i++){
 				ArrayList<Room> rooms = RandomGenerate.generate(4);
 				assertEquals(rooms.size(), 9);
-//				rooms = RandomGenerate.generate(5);
-//				assertTrue(rooms.size() == 1);
+				//				rooms = RandomGenerate.generate(5);
+				//				assertTrue(rooms.size() == 1);
 			}	
 		} catch (DungeonTooSmallException e) {
 			e.printStackTrace();
