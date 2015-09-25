@@ -11,6 +11,8 @@ import exceptions.DungeonTooSmallException;
 import exceptions.UnknowRoomTypeException;
 import items.Baton;
 import items.Key;
+import items.Mace;
+import items.Spike;
 import items.Sword;
 import items.Weapon;
 import model.Direction;
@@ -28,6 +30,13 @@ import rooms.TrapRoom;
 
 public class Test {
 
+	
+	@org.junit.Test
+	public void testQuestionParse() throws Exception {
+		ArrayList<Question> q = GenerateFromFile.getAllQuestions("lib_questions.txt");
+		assertEquals(6,q.size());
+	}
+	
 	
 	
 	@org.junit.Test
@@ -62,18 +71,20 @@ public class Test {
 		for (int i = 0; i < 20; i++) {
 			er.giveRandomWeapon(p);
 			Weapon w = p.getWp();
-			assertTrue(w instanceof Sword || w instanceof Baton);
+			assertTrue(w instanceof Sword || w instanceof Baton ||  w instanceof Mace
+					|| w instanceof Spike );
 		}
 		
 	}
 
-	@org.junit.Test
-	public void testIsCorrectAnswer() {
-		EnigmaRoom er = new EnigmaRoom(1);
-		assertFalse(er.isACorrectNumber(0));
-		assertFalse(er.isACorrectNumber(-1));
-		assertTrue(er.isACorrectNumber(2));
-	}
+//	@org.junit.Test
+//	public void testIsCorrectAnswer() {
+//		EnigmaRoom er = new EnigmaRoom(1);
+//		assertFalse(er.isACorrectNumber(0));
+//		assertFalse(er.isACorrectNumber(-1));
+//		assertTrue(er.isACorrectNumber(2));
+//	}
+	
 	@org.junit.Test
 	public void testRoomConnection() {
 		Dungeon dj = new Dungeon();

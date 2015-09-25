@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import exceptions.DungeonTooSmallException;
 import exceptions.UnknowRoomTypeException;
@@ -9,18 +10,33 @@ import rooms.Room;
 import rooms.RoomFactory;
 
 public class RandomGenerate {
-public static boolean exitNeedKey;
+	public static boolean keyOnPath = false;
 
 	public static ArrayList<Room> generate(int size) throws DungeonTooSmallException{
 		if(size<4)
 			throw new DungeonTooSmallException();
-
 		ArrayList<Room> rooms = new ArrayList<Room>();
 		generateLinearDj(size,rooms);
 		generateLabyPath(size/2,rooms);
-		
+		generateExitKey(rooms);
 		return rooms;
 	}
+
+
+
+
+	private static void generateExitKey(ArrayList<Room> rooms) {
+		Collections.shuffle(rooms);
+		for (Room r : rooms) {
+			if(!r.isExit() && !r.isEntrance() && r.getNeighborsCount() == 1){
+				r.setKey(new Key(getExitRoomNumber(rooms)));
+				break;
+			}
+		}
+	}
+
+
+
 
 	private static void generateLabyPath(int size, ArrayList<Room> rooms) {
 		for (int i = 0; i < size; i++) {
@@ -31,7 +47,9 @@ public static boolean exitNeedKey;
 
 	private static void extendDj(ArrayList<Room> rooms, int i) {
 		ArrayList<Room> toExtends = new ArrayList<Room>();
-
+		boolean monster = false;
+		boolean sphinx = false;
+		Collections.shuffle(rooms);
 		for (int j = 0; j < rooms.size(); j++) {
 			Room current = rooms.get(j);
 			//if i == 0 we look for the rooms with 2 neigbours
@@ -41,7 +59,7 @@ public static boolean exitNeedKey;
 			else if(i == 1 && current.getNeighborsCount() == 1 && !current.isExit() )
 				toExtends.add(current);
 		}
-		
+
 		for (int j = 0; j < toExtends.size(); j++) {
 			Room current = toExtends.get(j);
 			Direction dir = getRandomDirection();
@@ -49,12 +67,18 @@ public static boolean exitNeedKey;
 			while(current.getNextRoom(dir)!= null)
 				dir = getRandomDirection();
 			try {
-				Room newRoom = RoomFactory.generateRoom("Normal", rooms);
-				RoomFactory.connectRoom(current, dir, newRoom);
-				if(exitNeedKey){
-					newRoom.setKey(new Key(getExitRoomNumber(rooms)));
-					exitNeedKey = false;
+				Room newRoom;
+				if(!monster){
+					newRoom = RoomFactory.generateRandomMonsterRoom(rooms);
+					monster = true;
 				}
+				else if(!sphinx){
+					newRoom = RoomFactory.generateRoom("Enigma", rooms);
+					sphinx = true;
+				}
+				else
+					newRoom = RoomFactory.generateRandomRoom(rooms);
+				RoomFactory.connectRoom(current, dir, newRoom);
 			} catch (UnknowRoomTypeException e) {
 				e.printStackTrace();
 			}
@@ -81,16 +105,11 @@ public static boolean exitNeedKey;
 
 		try {
 			Room exit = RoomFactory.generateRoom("Exit", rooms);
+			exit.setNeedKey(true);
 			Room beforeExit;
 
-			if((int)(Math.random()*101) > 50){
-				//the room before the exit is normal and the exit is locked
-				beforeExit = RoomFactory.generateRoom("Normal", rooms);
-				exit.setNeedKey(true);
-				exitNeedKey = true;
-			}
-			else// the exit is not locked but the room before contains a Glouton
-				beforeExit = RoomFactory.generateRoom("Glouton", rooms);
+			beforeExit = Math.random()*101 > 50 ? 	RoomFactory.generateRoom("Normal", rooms) : 
+				RoomFactory.generateRoom("Glouton", rooms);
 
 			RoomFactory.connectRoom(exit, getRandomDirection(), beforeExit);
 

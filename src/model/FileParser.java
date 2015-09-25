@@ -55,18 +55,5 @@ public class FileParser {
 		}
 		return parsedLines;
 	}
-	
-//	public static void main(String[] args) {
-//		File f1=new File("premierDj.txt");
-//		
-//		FileParser fp1=new FileParser(f1);
-//		ArrayList<String[]> a1=fp1.parseLines();
-//		for (String[] strings : a1) {
-//			for(int i = 0; i< strings.length; i++){
-//				System.out.print(strings[i]+": ");
-//			}
-//			System.out.println();
-//		}
-//		
-//	}
+
 }

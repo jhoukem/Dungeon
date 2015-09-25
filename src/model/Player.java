@@ -13,7 +13,7 @@ import monsters.Monster;
 
 public class Player {
 	private int health;
-	private Torch t = new Torch(10);
+	private Torch t = new Torch();
 	private Weapon wp = new Fist();
 	private ArrayList<HealPotion> secours = new ArrayList<HealPotion>();
 	private ArrayList<Key> keyring = new ArrayList<Key>();
@@ -35,22 +35,17 @@ public class Player {
 		int dmg = getWp().getPower();
 		int alea = (int)(Math.random()*21) * getWp().getPower() / 100;
 		dmg += Math.random()*101 > 50 ?	alea : -alea;
-		
+
 		m.setHealth(m.getHealth() - dmg);
 		return dmg;
 	}
 
 	public void useHealthPotion(){
-		//		if(heath == H)
 		if(!secours.isEmpty()){
-			HealPotion p = secours.get(0);
-			secours.remove(p);
-			if(health + p.getValue() > 10)
-				health = 10;
+			if(health < 100)
+				secours.get(0).use(this);
 			else
-				health += p.getValue();
-			System.out.println("You used a health potion and restored your health");
-			System.out.println("Health : "+health);
+				System.out.println("Impossible action : your life is full !");
 		}
 		else{
 			System.out.println("You don't have any heal potion left");
@@ -124,6 +119,10 @@ public class Player {
 
 	public void useTorch() {
 		getTorch().use(getCurrentRoom());
+	}
+
+	public ArrayList<HealPotion> getSecours() {
+		return secours;
 	}
 
 	public void displayInventory() {

@@ -9,7 +9,7 @@ public class Main {
 
 		Dungeon dj = new Dungeon();
 		try {
-			dj.randomInit(7);
+			dj.randomInit(4);
 			while(!dj.isGameOver()){
 				dj.update();
 			}

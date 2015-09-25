@@ -4,11 +4,35 @@ import java.util.ArrayList;
 
 import exceptions.UnknowRoomTypeException;
 import model.Direction;
+import model.GenerateFromFile;
+import model.Question;
 import monsters.Arakne;
 import monsters.Glouton;
+import monsters.Gnome;
+import monsters.Troll;
+import monsters.Vampire;
 
 
 public class RoomFactory {
+
+			
+	public static Room generateRandomRoom(ArrayList<Room> rooms) throws UnknowRoomTypeException{
+		int alea = (int) (Math.random() * 101);
+		Room room;
+		if(alea < 15)
+			room = RoomFactory.generateRoom("Trap", rooms);
+		else if(alea < 25)
+			room = RoomFactory.generateRoom("Enigma", rooms);
+		else if(alea < 35)
+		room = generateRandomMonsterRoom(rooms);
+		else
+			room = RoomFactory.generateRoom("Normal", rooms);
+		if(Math.random()*101 > 65)
+			room.setHasTorch(true);
+		if(Math.random()*101 > 85)
+			room.setHasPotion(true);
+		return room;
+	}
 
 
 	public static Room generateRoom(String s, ArrayList<Room> rooms) throws UnknowRoomTypeException{
@@ -30,6 +54,12 @@ public class RoomFactory {
 			r = new MonsterRoom(rooms.size() + 1, new Arakne());
 		else if(s.equals("Glouton"))
 			r = new MonsterRoom(rooms.size() + 1, new Glouton());
+		else if(s.equals("Gnome"))
+			r = new MonsterRoom(rooms.size() + 1, new Gnome());
+		else if(s.equals("Vampire"))
+			r = new MonsterRoom(rooms.size() + 1, new Vampire());
+		else if(s.equals("Troll"))
+			r = new MonsterRoom(rooms.size() + 1, new Troll());
 		else if(s.equals("Trap"))
 			r = new TrapRoom(rooms.size() + 1);
 		else
@@ -63,6 +93,27 @@ public class RoomFactory {
 
 			else if(dir == Direction.WEST)
 				room2.neighbors.put(Direction.EAST, room);
+		}
+	}
+
+
+	public static Room generateRandomMonsterRoom(ArrayList<Room> rooms) {
+		int alea = (int) (Math.random() * 101);
+		try {
+			if(alea < 30)
+				return RoomFactory.generateRoom("Glouton", rooms);
+			else if(alea < 55)
+				return RoomFactory.generateRoom("Arakne", rooms);
+			else if(alea < 75)
+				return RoomFactory.generateRoom("Gnome", rooms);
+			else if(alea < 90)
+				return RoomFactory.generateRoom("Vampire", rooms);
+			else 
+				return RoomFactory.generateRoom("Troll", rooms);
+
+		} catch (UnknowRoomTypeException e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 

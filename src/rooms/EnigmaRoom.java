@@ -1,13 +1,17 @@
 package rooms;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
+import items.Baton;
+import items.HealPotion;
+import items.Mace;
+import items.Spike;
+import items.Sword;
+import items.Weapon;
+import model.GenerateFromFile;
 import model.Player;
 import model.Question;
-
-
-import items.Baton;
-import items.Sword;
 
 
 public class EnigmaRoom extends Room {
@@ -19,8 +23,18 @@ public class EnigmaRoom extends Room {
 
 	public EnigmaRoom(int n) {
 		super(n);
-		question = new Question("Es tu humain ?", "oui", "non");
-		question.addAnswer("peut etre");
+		try {
+			ArrayList<Question> questions = GenerateFromFile.getAllQuestions("lib_questions.txt");
+			question = getRandomQuestion(questions);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	private Question getRandomQuestion(ArrayList<Question> questions) {
+		int alea = (int) (Math.random() * questions.size());
+		return questions.get(alea);
 	}
 
 	@Override
@@ -57,13 +71,27 @@ public class EnigmaRoom extends Room {
 
 
 	public void giveRandomWeapon(Player p) {
-		if((int) (Math.random()*101) > 50){
-			p.setWp(new Sword());
-			System.out.println("I give you a sword !");
+		Weapon wp;
+		int alea = (int) (Math.random()*101);
+		if(alea < 30)
+			wp = new Baton();
+		else if(alea < 75)
+			wp = new Sword();
+		else if(alea < 90)
+			wp = new Spike();
+		else 
+			wp = new Mace();
+		
+		if(p.getWp().getPower() < wp.getPower()){
+			System.out.println("I give you a "+wp.getName());
+			p.setWp(wp);
 		}
 		else{
-			System.out.println("I give you a baton !");
-			p.setWp(new Baton());
+			System.out.println("I have a "+wp.getName()+" but your "
+					+ ""+p.getWp().getName()+" is better !");
+			System.out.println("So I give you a health potion. You can use it"
+					+ " by writing potion in the commands bar");
+			p.getSecours().add(new HealPotion());
 		}
 			
 	}

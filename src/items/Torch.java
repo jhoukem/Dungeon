@@ -4,15 +4,15 @@ import model.Direction;
 import rooms.Room;
 
 public class Torch {
-	private static final int MAX_FIRE = 10;
+	private static final int MAX_FIRE = 20;
 	private int fire;
 
 	public Torch(){
-
+		fire = MAX_FIRE;
 	}
 
 	public Torch(int n){
-		if(n < 11 && n > 0)
+		if(n < 21 && n > 0)
 			fire = n;
 		else
 			fire = MAX_FIRE;

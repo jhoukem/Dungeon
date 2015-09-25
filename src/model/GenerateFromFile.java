@@ -20,10 +20,8 @@ public class GenerateFromFile {
 
 		//create all the rooms
 		for (String[] strings : roomList) {
-//			for (int i = 0; i < strings.length; i++) {
-//				System.out.println("t" +strings[i]);
-//			}
-			
+
+
 			//String[5] must contains the type of the room
 			Room r;
 			try {
@@ -79,5 +77,24 @@ public class GenerateFromFile {
 		}
 		return null;
 	}
+
+
+	public static ArrayList<Question> getAllQuestions(String file) throws Exception{
+		ArrayList<Question> questions = new ArrayList<>();
+		FileParser fp = new FileParser(new File(file));
+		ArrayList<String[]> list = fp.parseLines("/");
+
+		for(String[] line : list){
+			if(line.length < 3)
+				throw new Exception("Corrupt File !");
+			Question q = new Question(line[0], line[1], line[2]);
+			for(int i = 3; i < line.length; i++)
+				q.addAnswer(line[i]);
+			questions.add(q);
+		}
+		return questions;
+	}
+
+
 
 }

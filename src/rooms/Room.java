@@ -3,7 +3,7 @@ import java.util.HashMap;
 
 import model.Direction;
 import model.Player;
-
+import items.HealPotion;
 import items.Key;
 
 
@@ -15,6 +15,7 @@ public class Room {
 	private boolean isExit = false;
 	private boolean isEntrance = false;
 	private boolean hasTorch = false;
+	private boolean hasPotion = false;
 	private Key key = null;
 
 	public HashMap<Direction, Room> neighbors;
@@ -42,6 +43,11 @@ public class Room {
 			hasTorch = false;
 			System.out.println("You picked up a torch !");
 			p.getTorch().reload();
+		}
+		if(hasPotion){
+			hasPotion = false;
+			System.out.println("You picked up a health potion !");
+			p.getSecours().add(new HealPotion());
 		}
 	}
 
@@ -146,6 +152,14 @@ public class Room {
 		if (neighbors.containsKey(Direction.WEST)) 
 			i++;
 		return i;
+	}
+
+	public boolean isHasPotion() {
+		return hasPotion;
+	}
+
+	public void setHasPotion(boolean hasPotion) {
+		this.hasPotion = hasPotion;
 	}
 
 }
