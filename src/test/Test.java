@@ -7,9 +7,13 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.util.ArrayList;
 
+import exceptions.CorruptedFileException;
 import exceptions.DungeonTooSmallException;
+import exceptions.MissingEntranceRoomException;
+import exceptions.MissingExitRoomException;
 import exceptions.UnknowRoomTypeException;
 import items.Baton;
+import items.HealPotion;
 import items.Key;
 import items.Mace;
 import items.Spike;
@@ -30,15 +34,92 @@ import rooms.TrapRoom;
 
 public class Test {
 
+
+
+	@org.junit.Test
+	public void testDjRandomInit() throws DungeonTooSmallException, MissingExitRoomException, MissingEntranceRoomException{
+		Dungeon dj = new Dungeon();
+		dj.randomInit(7);
+		assertTrue(dj.hasExit());
+		assertTrue(dj.hasEntrance());
+	}
 	
 	@org.junit.Test
-	public void testQuestionParse() throws Exception {
-		ArrayList<Question> q = GenerateFromFile.getAllQuestions("lib_questions.txt");
-		assertEquals(6,q.size());
+	public void testInitFromFile() throws MissingExitRoomException, MissingEntranceRoomException  {
+		Dungeon dj = new Dungeon();
+		dj.initFromFile("dj1.txt");
+		assertTrue(dj.hasExit());
+		assertTrue(dj.hasEntrance());
+	}
+	
+	@org.junit.Test(expected=MissingExitRoomException.class)
+	public void testNoExit() throws MissingExitRoomException, MissingEntranceRoomException {
+		Dungeon dj = new Dungeon();
+		dj.initFromFile("testDjNoExit.txt");
+	}
+	
+	@org.junit.Test(expected=MissingEntranceRoomException.class)
+	public void testNoEntrance() throws MissingExitRoomException, MissingEntranceRoomException {
+		Dungeon dj = new Dungeon();
+		dj.initFromFile("testDjNoEntrance.txt");
 	}
 	
 	
+	@org.junit.Test
+	public void testCanPlayerGoDir(){
+		Dungeon dj = new Dungeon();
+		
+		Room r1 = new Room(1);
+		Room r2 = new Room(2);
+		
+		r1.setEntrance(true);
+		dj.setEntrance(r1);
+		
+		dj.getRooms().add(r1);
+		dj.getRooms().add(r2);
+		dj.initPlayer();
+		
+		RoomFactory.connectRoom(r1, Direction.EAST, r2);
+		assertTrue(dj.canPlayerGoTo(Direction.EAST));
+		assertFalse(dj.canPlayerGoTo(Direction.NORTH));
+		assertFalse(dj.canPlayerGoTo(Direction.SOUTH));
+		assertFalse(dj.canPlayerGoTo(Direction.WEST));
+	}
 	
+
+	@org.junit.Test
+	public void testQuestionParse() throws CorruptedFileException  {
+		ArrayList<Question> q = GenerateFromFile.getAllQuestions("lib_questions.txt");
+		assertEquals(6,q.size());
+	}
+
+	@org.junit.Test
+	public void testPlayerUsePotion() {
+		Player p = new Player();
+		Arakne a  = new Arakne();
+		//the arakne hit~10
+		a.hit(p);
+		p.getSecours().add(new HealPotion());
+		p.getSecours().add(new HealPotion());
+		//player has 3 potions (one from the init)
+
+		int playerLife = p.getHealth();//save the player life after get hit
+		p.useHealthPotion();//2potions left
+		//the life of the player has increase after use the potion
+		assertTrue(playerLife < p.getHealth());
+		//after using a +40 pdv potion, the life max is limit to 100
+		assertEquals(p.getHealth(),100);
+		p.useHealthPotion();
+		//When full life, player can't use any more potions
+		assertEquals(p.getSecours().size(), 2);		
+		a.hit(p);
+		playerLife = p.getHealth();
+		p.getSecours().clear();
+		//if player dont have health potion, he can't use it
+		p.useHealthPotion();
+		assertEquals(p.getHealth(), playerLife);
+	}
+
 	@org.junit.Test
 	public void testPlayerHit() {
 		Player p = new Player();
@@ -47,10 +128,12 @@ public class Test {
 		int playerLife = p .getHealth();
 		p.hit(a);
 		a.hit(p);
-		assertTrue(arakneLife != a.getHealth());
-		assertTrue(playerLife != p.getHealth());
+		//the life of the player has decrease
+		assertTrue(arakneLife > a.getHealth());
+		//the life of the player has decrease
+		assertTrue(playerLife > p.getHealth());
 	}
-	
+
 	@org.junit.Test
 	public void testIsANumber() {
 		Room r = new Room(1);
@@ -63,7 +146,7 @@ public class Test {
 		assertTrue(r.isANumber("2"));
 		assertTrue(r.isANumber("15"));
 	}
-	
+
 	@org.junit.Test
 	public void testRandomWeapon() {
 		Player p = new Player();
@@ -74,17 +157,17 @@ public class Test {
 			assertTrue(w instanceof Sword || w instanceof Baton ||  w instanceof Mace
 					|| w instanceof Spike );
 		}
-		
+
 	}
 
-//	@org.junit.Test
-//	public void testIsCorrectAnswer() {
-//		EnigmaRoom er = new EnigmaRoom(1);
-//		assertFalse(er.isACorrectNumber(0));
-//		assertFalse(er.isACorrectNumber(-1));
-//		assertTrue(er.isACorrectNumber(2));
-//	}
-	
+	//	@org.junit.Test
+	//	public void testIsCorrectAnswer() {
+	//		EnigmaRoom er = new EnigmaRoom(1);
+	//		assertFalse(er.isACorrectNumber(0));
+	//		assertFalse(er.isACorrectNumber(-1));
+	//		assertTrue(er.isACorrectNumber(2));
+	//	}
+
 	@org.junit.Test
 	public void testRoomConnection() {
 		Dungeon dj = new Dungeon();
@@ -230,7 +313,7 @@ public class Test {
 	@org.junit.Test
 	public void testParseFile() {
 		Dungeon dj = new Dungeon();
-		dj.setRooms(GenerateFromFile.generateDjFromFile(new File("testDj.txt")));
+		dj.setRooms(GenerateFromFile.generateDjFromFile(new File("testDjNoExit.txt")));
 		//Room1
 		Room r1 = dj.getRooms().get(0);
 		assertTrue(r1.neighbors.containsKey(Direction.NORTH));

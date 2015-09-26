@@ -3,6 +3,7 @@ package model;
 import java.io.File;
 import java.util.ArrayList;
 
+import exceptions.CorruptedFileException;
 import exceptions.UnknowRoomTypeException;
 import items.Key;
 import rooms.Room;
@@ -79,14 +80,14 @@ public class GenerateFromFile {
 	}
 
 
-	public static ArrayList<Question> getAllQuestions(String file) throws Exception{
+	public static ArrayList<Question> getAllQuestions(String file) throws CorruptedFileException {
 		ArrayList<Question> questions = new ArrayList<>();
 		FileParser fp = new FileParser(new File(file));
 		ArrayList<String[]> list = fp.parseLines("/");
 
 		for(String[] line : list){
 			if(line.length < 3)
-				throw new Exception("Corrupt File !");
+				throw new CorruptedFileException();
 			Question q = new Question(line[0], line[1], line[2]);
 			for(int i = 3; i < line.length; i++)
 				q.addAnswer(line[i]);

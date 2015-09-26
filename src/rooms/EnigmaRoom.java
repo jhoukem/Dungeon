@@ -86,6 +86,12 @@ public class EnigmaRoom extends Room {
 			System.out.println("I give you a "+wp.getName());
 			p.setWp(wp);
 		}
+		else if(p.getWp().getPower() == wp.getPower()){
+			System.out.println("You already have a"+wp.getName());
+			System.out.println("So I give you a health potion. You can use it"
+					+ " by writing 'potion' in the commands bar");
+			p.getSecours().add(new HealPotion());
+		}
 		else{
 			System.out.println("I have a "+wp.getName()+" but your "
 					+ ""+p.getWp().getName()+" is better !");

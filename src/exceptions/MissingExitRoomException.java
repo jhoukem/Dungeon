@@ -1,8 +1,8 @@
 package exceptions;
 
 @SuppressWarnings("serial")
-public class MissingExitRoom extends Exception {
-	public MissingExitRoom() {
+public class MissingExitRoomException extends Exception {
+	public MissingExitRoomException() {
 		super("The dungeon has no exit room");
 	}
 }

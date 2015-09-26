@@ -1,7 +1,8 @@
 package model;
 
 import exceptions.DungeonTooSmallException;
-import exceptions.MissingExitRoom;
+import exceptions.MissingEntranceRoomException;
+import exceptions.MissingExitRoomException;
 
 public class Main {
 
@@ -13,7 +14,7 @@ public class Main {
 			while(!dj.isGameOver()){
 				dj.update();
 			}
-		} catch (DungeonTooSmallException | MissingExitRoom e) {
+		} catch (DungeonTooSmallException | MissingExitRoomException | MissingEntranceRoomException e) {
 			e.printStackTrace();
 		}
 		//			try {

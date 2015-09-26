@@ -1,0 +1,8 @@
+ROOM NORD EAST SOUTH WEST TYPE     KEY TORCH LOCKED
+1    2    *    *     3    Normal   *    *    *
+2    7    *    1     *    Normal   *    *    *
+3    4    1    *     *    Normal   *    *    *
+4    5    *    3     6    Normal   *    *    *
+5    *    *    4     *    Normal   *    *    *
+6    *    4    *     *    Normal   *    *    *
+7    *    *    2     *    Exit     *    *    *

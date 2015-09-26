@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import exceptions.DungeonTooSmallException;
-import exceptions.MissingExitRoom;
+import exceptions.MissingEntranceRoomException;
+import exceptions.MissingExitRoomException;
 import rooms.Room;
 
 
@@ -22,19 +23,19 @@ public class Dungeon {
 
 	}
 
-	public void randomInit(int size) throws DungeonTooSmallException, MissingExitRoom{
+	public void randomInit(int size) throws DungeonTooSmallException, MissingExitRoomException, MissingEntranceRoomException{
 		rooms = RandomGenerate.generate(size);
-		initExit();
+		initEntranceAndExit();
 		initPlayer();
 	}
 
-	public void initFromFile(String s) throws MissingExitRoom{
+	public void initFromFile(String s) throws MissingExitRoomException, MissingEntranceRoomException{
 		rooms = GenerateFromFile.generateDjFromFile(new File(s));
-		initExit();
+		initEntranceAndExit();
 		initPlayer();
 	}
 
-	private void initExit() throws MissingExitRoom {
+	private void initEntranceAndExit() throws MissingExitRoomException, MissingEntranceRoomException {
 		for(Room r : rooms){
 			if(r.isEntrance())
 				entrance = r;
@@ -42,15 +43,22 @@ public class Dungeon {
 				exit = r;
 		}
 		if(!hasExit())
-			throw new MissingExitRoom();
+			throw new MissingExitRoomException();
+		else if(!hasEntrance())
+			throw new MissingEntranceRoomException();
 	}
-	
-	
+
+
+	public boolean hasEntrance() {
+		if(entrance != null)
+			return true;
+		return false;
+	}
+
 	public boolean hasExit(){
 		if(exit != null)
 			return true;
-		else 
-			return false;
+		return false;
 	}
 
 
@@ -72,97 +80,46 @@ public class Dungeon {
 		return p.getHealth() < 1 || p.getCurrentRoom().isExit();
 	}
 
-	public void executeCommand(String line) {
 
-		if(line.equals("potion")){
-			p.useHealthPotion();
-		}
-		if(line.equals("inventory")){
-			p.displayInventory();
-		}
-		else if(line.equals("n")){
-
-			if(p.getCurrentRoom().neighbors.containsKey(Direction.NORTH)){
-				if(p.getCurrentRoom().getNextRoom(Direction.NORTH ).isNeedKey() && // if the next room need a key 
-						!p.hasKeyForRoom(p.getCurrentRoom().getNextRoom(Direction.NORTH ))){ // and if the player don't have the key
+	public boolean canPlayerGoTo(Direction dir){
+		if(p.getCurrentRoom().neighbors.containsKey(dir)){
+			//key is needed
+			if(p.getCurrentRoom().getNextRoom(dir).isNeedKey()){
+				if(!p.hasKeyForRoom(p.getCurrentRoom().getNextRoom(dir))){
 					System.out.println("You need a key to enter in this room");
-					playerMoved = false;	
+					return false;	
 				}
-				else{
-					playerMoved = true;	
-					p.setCurrentRoom(p.getCurrentRoom().getNextRoom(Direction.NORTH ));//change the current room
-				}
-
-			}
-			else{
-				System.out.println("There is no way on north side !");
-				playerMoved = false;	
-			}
-
-		}
-		else if(line.equals("e")){
-			if(p.getCurrentRoom().neighbors.containsKey(Direction.EAST)){
-				if(p.getCurrentRoom().getNextRoom(Direction.EAST ).isNeedKey() && // if the next room need a key 
-						!p.hasKeyForRoom(p.getCurrentRoom().getNextRoom(Direction.EAST ))){ // and if the player don't have the key
-					System.out.println("You need a key to enter in this room");
-					playerMoved = false;	
-				}
-
-				else{
-					p.setCurrentRoom(p.getCurrentRoom().getNextRoom(Direction.EAST));//change the current room
-					playerMoved = true;	
-				}
-
-			}
-			else{
-				System.out.println("There is no way on east side !");
-				playerMoved = false;	
-			}
-
-
-		}
-		else if(line.equals("s")){
-			if(p.getCurrentRoom().neighbors.containsKey(Direction.SOUTH)){
-				if(p.getCurrentRoom().getNextRoom(Direction.SOUTH ).isNeedKey() && // if the next room need a key 
-						!p.hasKeyForRoom(p.getCurrentRoom().getNextRoom(Direction.SOUTH ))){ // and if the player don't have the key
-					System.out.println("You need a key to enter in this room");
-					playerMoved = false;	
-				}
-
-				else{
-					p.setCurrentRoom(p.getCurrentRoom().getNextRoom(Direction.SOUTH));//change the current room
-					playerMoved = true;	
-				}
-
-			}
-			else{
-				System.out.println("There is no way on south side !");
-				playerMoved = false;	
-			}
-
-
-		}
-		else if(line.equals("w")){
-			if(p.getCurrentRoom().neighbors.containsKey(Direction.WEST)){
-				if(p.getCurrentRoom().getNextRoom(Direction.WEST ).isNeedKey() && // if the next room need a key 
-						!p.hasKeyForRoom(p.getCurrentRoom().getNextRoom(Direction.WEST ))){ // and if the player don't have the key
-					System.out.println("You need a key to enter in this room");
-					playerMoved = false;	
-				}
-				else{
-					p.setCurrentRoom(p.getCurrentRoom().getNextRoom(Direction.WEST));//change the current room
-					playerMoved = true;	
-				}
-			}
-			else{
-				playerMoved = false;	
-				System.out.println("There is no way on west side !");
 			}
 		}
 		else{
-			System.out.println("Please write a direction like 'north', 'east', 'south' or 'west' .");
+			System.out.println("There is no way on '"+dir+"' side !");
+			return false;
 		}
+
+		return true;
 	}
+
+
+	public void executeCommand(String line) {
+
+		Direction dir = null;
+
+		switch(line){
+		case "n": dir = Direction.NORTH;break;
+		case "e": dir = Direction.EAST;break;
+		case "s": dir = Direction.SOUTH;break;
+		case "w": dir = Direction.WEST;break;
+		case "potion": p.useHealthPotion();break;
+		case "inventory": p.displayInventory();break;
+		}
+		if(canPlayerGoTo(dir)){
+			playerMoved = true;
+			p.setCurrentRoom(p.getCurrentRoom().getNextRoom(dir));//change the current room
+		}
+		else
+			playerMoved = false;
+	}
+
 
 	public ArrayList<Room> getRooms() {
 		return rooms;
