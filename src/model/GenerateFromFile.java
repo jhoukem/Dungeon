@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import exceptions.CorruptedFileException;
 import exceptions.UnknowRoomTypeException;
 import items.Key;
+import rooms.Question;
 import rooms.Room;
 import rooms.RoomFactory;
 

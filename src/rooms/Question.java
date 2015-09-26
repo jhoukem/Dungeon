@@ -1,4 +1,4 @@
-package model;
+package rooms;
 
 import java.util.ArrayList;
 import java.util.Collections;

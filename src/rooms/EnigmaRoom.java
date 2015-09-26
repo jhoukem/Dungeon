@@ -11,7 +11,6 @@ import items.Sword;
 import items.Weapon;
 import model.GenerateFromFile;
 import model.Player;
-import model.Question;
 
 
 public class EnigmaRoom extends Room {
