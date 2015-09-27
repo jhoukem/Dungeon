@@ -525,6 +525,22 @@ public class Test {
 		assertEquals(true, m.isAlive());
 	}
 
+	@org.junit.Test
+	public void testCheckItems() {
+		Player p = new Player();
+		p.getTorch().extinguish();
+		assertEquals(p.getKeyring().size(),0);
+		Room r = new Room(1);
+		r.setKey(new Key(1));
+		r.setHasPotion(true);
+		r.setHasTorch(true);
+		r.act(p);
+		assertTrue(p.getKeyring().size()>0);
+		assertEquals(p.getSecours().size(),2);
+		assertEquals(p.getTorch().getFire(),20);
+	}
+	
+	
 	@org.junit.Test(expected = CorruptedFileException.class)
 	public void testCorruptedFileExceptions() throws CorruptedFileException {
 		GenerateFromFile.getAllQuestions("testCorruptedQuestionFile.txt");

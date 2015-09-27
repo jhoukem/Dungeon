@@ -42,6 +42,13 @@ public class Torch {
 			System.out.println("Your torch is extinguished");
 		}
 	}
+	
+	
+	
+	public void extinguish() {
+		this.fire = 0;
+	}
+
 
 	public void reload() {
 		fire = MAX_FIRE;

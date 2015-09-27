@@ -102,7 +102,7 @@ public class Player {
 	public void setWp(Weapon wp) {
 		this.wp = wp;
 	}
-
+	
 	public Torch getTorch() {
 		return t;
 	}
