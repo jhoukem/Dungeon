@@ -1,0 +1,7 @@
+Questions/Bonne reponse/Reponses possibles
+Es tu humain ?/Oui/Non/Peut être
+Combien existe t-il de lettre dans l'alphabet ?:26:24:2:32
+Combien existe t-il de continents ?/5/4/6
+Qui est apparu en premier l'oeuf ou la poule ?/.../La poule/L'oeuf
+Combien y a t il de couleur dans l'arc en ciel ?/6/8/11
+Qu'est ce qui est plus lourd un kilograme de plume ou un kilogramme de plomb?/Aucun des deux/Plume/Plomb
