@@ -29,7 +29,11 @@ public class Question {
 	}
 
 
-
+/**
+ * 
+ * @param a an possible answers (it will always be a wrong answer
+ *  because the right one is set at the instantiation
+ */
 	public void addAnswer(String a){
 		possibleAnswer.add(a);
 	}

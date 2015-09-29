@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import exceptions.UnknowRoomTypeException;
 import model.Direction;
-import model.GenerateFromFile;
 import monsters.Arakne;
 import monsters.Glouton;
 import monsters.Gnome;

@@ -13,13 +13,14 @@ public class TrapRoom extends Room{
 
 	@Override
 	public void act(Player p) {
-		displayNum();
 		if(!activated){
 			System.out.println("You fall in a trap");
 			p.setHealth(p.getHealth() - 1);
 			System.out.println("Health : "+p.getHealth());
 			setActivated(true);
 		}
+		if(p.isAlive())
+			checkRoom(p);
 	}
 
 

@@ -18,12 +18,13 @@ public class MonsterRoom extends Room {
 
 	@Override
 	public void act(Player p) {
-		displayNum();
 		if (monster.isAlive()) {
 			System.out.println("You are attacked by a monster ! ("
 					+ monster.getName() + ")");
 			fight(p);
 		}
+		else 
+			checkRoom(p);
 	}
 
 	private int getAnwser() {
@@ -54,6 +55,7 @@ public class MonsterRoom extends Room {
 	private void fight(Player p) {
 		boolean escaped = false;
 
+		//while the fight is not over
 		while (p.isAlive() && monster.isAlive() && !escaped) {
 			displayInfos(p);
 			int choice = getAnwser();
@@ -70,7 +72,7 @@ public class MonsterRoom extends Room {
 				if ((Math.random() * 101) > 85) {
 					System.out.println("Successful dodge !");
 					System.out.println("You make " + p.hit(monster)
-							+ " damages to the monster");
+					+ " damages to the monster");
 				} else {
 					System.out.println("You failed to dodge the monster attack");
 					System.out.println("The monster makes you "
@@ -90,12 +92,12 @@ public class MonsterRoom extends Room {
 			}
 		}
 
-		if (!p.isAlive()) {
+		if (!p.isAlive()) 
 			System.out.println("You are dead ! Game Over...");
-		} else if (!monster.isAlive()) {
+		else if (!monster.isAlive()) {
 			System.out.println("Your health :" + p.getHealth());
 			System.out.println("You kill the monster !");
-			checkItem(p);
+			checkRoom(p);
 		}
 
 	}

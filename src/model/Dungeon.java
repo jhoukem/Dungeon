@@ -12,34 +12,34 @@ import exceptions.MissingExitRoomException;
 
 public class Dungeon {
 
-	Scanner					sc			= new Scanner(System.in);
-	public Player			p			= new Player();
-	private boolean			playerMoved	= true;
+	Scanner	sc = new Scanner(System.in);
+	public Player p	= new Player();
+	private boolean	playerMoved	= true;
 
-	private ArrayList<Room>	rooms		= new ArrayList<Room>();
-	private String			line;
-	private Room			entrance, exit;
+	private ArrayList<Room>	rooms = new ArrayList<Room>();
+	private String line;
+	private Room entrance, exit;
 
 	public Dungeon() {
 
 	}
 
 	public void randomInit(int size) throws DungeonTooSmallException,
-			MissingExitRoomException, MissingEntranceRoomException {
+	MissingExitRoomException, MissingEntranceRoomException {
 		rooms = RandomGenerate.generate(size);
 		initEntranceAndExit();
 		initPlayer();
 	}
 
 	public void initFromFile(String s) throws MissingExitRoomException,
-			MissingEntranceRoomException {
+	MissingEntranceRoomException {
 		rooms = GenerateFromFile.generateDjFromFile(new File(s));
 		initEntranceAndExit();
 		initPlayer();
 	}
 
 	private void initEntranceAndExit() throws MissingExitRoomException,
-			MissingEntranceRoomException {
+	MissingEntranceRoomException {
 		for (Room r : rooms) {
 			if (r.isEntrance()) {
 				entrance = r;
@@ -106,30 +106,29 @@ public class Dungeon {
 		Direction dir = null;
 
 		switch (line) {
-			case "n":
-				dir = Direction.NORTH;
-				break;
-			case "e":
-				dir = Direction.EAST;
-				break;
-			case "s":
-				dir = Direction.SOUTH;
-				break;
-			case "w":
-				dir = Direction.WEST;
-				break;
-			case "potion":
-				p.useHealthPotion();
-				break;
-			case "inventory":
-				p.displayInventory();
-				break;
+		case "n":
+			dir = Direction.NORTH;
+			break;
+		case "e":
+			dir = Direction.EAST;
+			break;
+		case "s":
+			dir = Direction.SOUTH;
+			break;
+		case "w":
+			dir = Direction.WEST;
+			break;
+		case "potion":
+			p.useHealthPotion();
+			break;
+		case "inventory":
+			p.displayInventory();
+			break;
 		}
-		if (canPlayerGoTo(dir)) {
+		if (dir != null && canPlayerGoTo(dir)) {
 			playerMoved = true;
-			p.setCurrentRoom(p.getCurrentRoom().getNextRoom(dir));// change the
-																	// current
-																	// room
+			p.setCurrentRoom(p.getCurrentRoom().getNextRoom(dir));// change the current room of the player
+			
 		} else {
 			playerMoved = false;
 		}

@@ -21,14 +21,21 @@ public class Room {
 	public HashMap<Direction, Room> neighbors;
 
 	public void act(Player p){
+		checkRoom(p);
+	}
+
+	/**
+	 * Check the exit and all the items in the room
+	 * @param p
+	 */
+	public void checkRoom(Player p){
 		displayNum();
 		if(isExit())
 			System.out.println("Congratulation ! You escaped from the dungeon");
 		else 
 			checkItem(p);
-
 	}
-
+	
 	protected void displayNum() {
 		System.out.println("Room n°"+getNumero());	
 	}
