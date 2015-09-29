@@ -1,5 +1,7 @@
 package items;
 
+import java.util.Map.Entry;
+
 import model.Direction;
 import rooms.Room;
 
@@ -23,26 +25,16 @@ public class Torch {
 
 	/**
 	 * 
-	 * @param r
-	 *            actual room of the player
+	 * @param r actual room of the player
 	 */
 	public void use(Room r) {
 		if (fire > 0) {
 			fire--;
 			System.out.println("Possible directions : (Torch = " + fire + ") ");
 			String s = "";
-			// if player valid all conditions gives possible directions
-			if (r.neighbors.containsKey(Direction.NORTH)) {
-				s += "North\n";
-			}
-			if (r.neighbors.containsKey(Direction.EAST)) {
-				s += "East\n";
-			}
-			if (r.neighbors.containsKey(Direction.SOUTH)) {
-				s += "South\n";
-			}
-			if (r.neighbors.containsKey(Direction.WEST)) {
-				s += "West\n";
+			for(Entry<Direction, Room> entry : r.neighbors.entrySet()) {
+				Direction dir = entry.getKey();
+				s+= dir+"\n";
 			}
 			System.out.println(s);
 		} else {

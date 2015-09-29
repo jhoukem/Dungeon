@@ -24,7 +24,6 @@ public class RandomGenerate {
 
 
 
-
 	private static void generateExitKey(ArrayList<Room> rooms) {
 		Collections.shuffle(rooms);
 		for (Room r : rooms) {
