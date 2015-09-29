@@ -13,6 +13,7 @@ public class Torch {
 	}
 
 	public Torch(int n) {
+		// fire value cannot be initialized at 0 or more than 21
 		if ((n < 21) && (n > 0)) {
 			fire = n;
 		} else {
@@ -20,11 +21,17 @@ public class Torch {
 		}
 	}
 
+	/**
+	 * 
+	 * @param r
+	 *            actual room of the player
+	 */
 	public void use(Room r) {
 		if (fire > 0) {
 			fire--;
 			System.out.println("Possible directions : (Torch = " + fire + ") ");
 			String s = "";
+			// if player valid all conditions gives possible directions
 			if (r.neighbors.containsKey(Direction.NORTH)) {
 				s += "North\n";
 			}
@@ -42,13 +49,10 @@ public class Torch {
 			System.out.println("Your torch is extinguished");
 		}
 	}
-	
-	
-	
-	public void extinguish() {
-		this.fire = 0;
-	}
 
+	public void extinguish() {
+		fire = 0;
+	}
 
 	public void reload() {
 		fire = MAX_FIRE;
