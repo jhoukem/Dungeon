@@ -1,13 +1,15 @@
 package model;
 
+import items.Key;
+
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Map.Entry;
 
-import exceptions.DungeonTooSmallException;
-import exceptions.UnknowRoomTypeException;
-import items.Key;
 import rooms.Room;
 import rooms.RoomFactory;
+import exceptions.DungeonTooSmallException;
+import exceptions.UnknowRoomTypeException;
 
 public class RandomGenerate {
 	public static boolean keyOnPath = false;
@@ -42,6 +44,23 @@ public class RandomGenerate {
 			extendDj(rooms, i%2);
 		}
 	}
+
+
+
+
+	public static void getConnectedRoom(Room r, ArrayList<Room> list){
+
+
+		for(Entry<Direction, Room> entry : r.neighbors.entrySet()) {
+			Room current = entry.getValue();
+			if(!list.contains(current) && !current.isLocked()){
+				list.add(current);
+				getConnectedRoom(current, list);	
+			}
+		}
+
+	}
+
 
 
 	private static void extendDj(ArrayList<Room> rooms, int i) {
@@ -104,7 +123,7 @@ public class RandomGenerate {
 
 		try {
 			Room exit = RoomFactory.generateRoom("Exit", rooms);
-			exit.setNeedKey(true);
+			exit.setLocked(true);
 			Room beforeExit;
 
 			beforeExit = Math.random()*101 > 50 ? 	RoomFactory.generateRoom("Normal", rooms) : 
@@ -140,5 +159,38 @@ public class RandomGenerate {
 			return Direction.SOUTH;
 		else
 			return Direction.WEST;
+	}
+	
+	
+	
+	
+	public static void main(String[] args) {
+		ArrayList<Room> list = new ArrayList<Room>();
+		ArrayList<Room> connected = new ArrayList<Room>();
+		try {
+			Room r1 = RoomFactory.generateRoom("Normal",list);
+			Room r2 = RoomFactory.generateRoom("Normal",list);
+			Room r3 = RoomFactory.generateRoom("Normal",list);
+			Room r4 = RoomFactory.generateRoom("Normal",list);
+			Room r5 = RoomFactory.generateRoom("Normal",list);
+			
+			RoomFactory.connectRoom(r1, Direction.NORTH, r2);
+			RoomFactory.connectRoom(r2, Direction.NORTH, r3);
+			RoomFactory.connectRoom(r3, Direction.NORTH, r4);
+			RoomFactory.connectRoom(r4, Direction.NORTH, r5);
+			
+			r3.setLocked(true);
+			
+			RandomGenerate.getConnectedRoom(r1, connected);
+			
+			System.out.println(connected.size());
+			
+			
+		} catch (UnknowRoomTypeException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
 	}
 }

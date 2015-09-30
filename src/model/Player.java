@@ -65,7 +65,7 @@ public class Player {
 	}
 
 	public boolean canGetInRoom(Room r){
-		if(r.isNeedKey() == false)
+		if(r.isLocked() == false)
 			return true;
 		else if(hasKeyForRoom(r))
 			return true;

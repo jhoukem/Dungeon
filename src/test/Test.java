@@ -255,7 +255,7 @@ public class Test {
 		try {
 			r1 = RoomFactory.generateRoom("Normal", dj.getRooms());
 			r2 = RoomFactory.generateRoom("Normal", dj.getRooms());
-			r2.setNeedKey(true);
+			r2.setLocked(true);
 			RoomFactory.connectRoom(r1, Direction.EAST, r2);
 			dj.initPlayer();
 			assertFalse(dj.p.canGetInRoom(r2));

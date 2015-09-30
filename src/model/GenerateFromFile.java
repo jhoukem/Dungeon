@@ -33,7 +33,7 @@ public class GenerateFromFile {
 				if(strings[7].equals("TRUE"))
 					r.setHasTorch(true);
 				if(strings[8].equals("TRUE"))
-					r.setNeedKey(true);
+					r.setLocked(true);
 			} catch (UnknowRoomTypeException e) {
 				e.printStackTrace();
 			}

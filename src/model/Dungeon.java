@@ -77,9 +77,14 @@ public class Dungeon {
 	}
 
 	public void initPlayer() {
+		p = new Player();
 		p.setCurrentRoom(entrance);
 	}
 
+	public boolean isFinish() {
+		return p.getCurrentRoom().isExit();
+	}
+	
 	public boolean isGameOver() {
 		return (p.getHealth() < 1) || p.getCurrentRoom().isExit();
 	}
@@ -87,7 +92,7 @@ public class Dungeon {
 	public boolean canPlayerGoTo(Direction dir) {
 		if (p.getCurrentRoom().neighbors.containsKey(dir)) {
 			// key is needed
-			if (p.getCurrentRoom().getNextRoom(dir).isNeedKey()) {
+			if (p.getCurrentRoom().getNextRoom(dir).isLocked()) {
 				if (!p.hasKeyForRoom(p.getCurrentRoom().getNextRoom(dir))) {
 					System.out.println("You need a key to enter in this room");
 					return false;

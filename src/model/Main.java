@@ -10,23 +10,19 @@ public class Main {
 
 		Dungeon dj = new Dungeon();
 		try {
-			dj.randomInit(4);
-			while(!dj.isGameOver()){
-				dj.update();
+			for (int i = 4; i < 7; i++) { // i = 4 because random init min arg is 4
+				System.out.println("Dungeon number "+(i-3));
+				dj.randomInit(i);
+				while(!dj.isGameOver())
+					dj.update();
+				if(!dj.isFinish())// if the player is dead, he can retry the level
+					i--;
+
 			}
+
 		} catch (DungeonTooSmallException | MissingExitRoomException | MissingEntranceRoomException e) {
 			e.printStackTrace();
 		}
-		//			try {
-		//				dj.initFromFile("dj2.txt");
-		//				while(!dj.isGameOver()){
-		//					dj.update();
-		//				}
-		//			} catch (MissingExitRoom e) {
-		//				// TODO Auto-generated catch block
-		//				e.printStackTrace();
-		//			}
-
 	} 
 }
 

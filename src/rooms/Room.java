@@ -11,7 +11,7 @@ public class Room {
 
 	private final int numero;
 
-	private boolean needKey = false;
+	private boolean locked = false;
 	private boolean isExit = false;
 	private boolean isEntrance = false;
 	private boolean hasTorch = false;
@@ -37,7 +37,7 @@ public class Room {
 	}
 	
 	protected void displayNum() {
-		System.out.println("Room n°"+getNumero());	
+		System.out.println("Room nï¿½"+getNumero());	
 	}
 
 	public void checkItem(Player p){
@@ -95,12 +95,12 @@ public class Room {
 		this.isExit = isExit;
 	}
 
-	public boolean isNeedKey() {
-		return needKey;
+	public boolean isLocked() {
+		return locked;
 	}
 
-	public void setNeedKey(boolean needKey) {
-		this.needKey = needKey;
+	public void setLocked(boolean needKey) {
+		this.locked = needKey;
 	}
 
 	public Key getKey() {
