@@ -21,9 +21,45 @@ public class RandomGenerate {
 		generateLinearDj(size,rooms);
 		generateLabyPath(size/2,rooms);
 		generateExitKey(rooms);
+		//		generateKey(getLockedRoom(rooms));
 		return rooms;
 	}
 
+
+
+	private static ArrayList<Room> getLockedRoom(ArrayList<Room> rooms) {
+
+		ArrayList<Room> list = new ArrayList<Room>();
+
+		for (Room room : list) {
+			if(room.isLocked())
+				list.add(room);
+		}
+
+		return list;
+	}
+
+
+
+	public static Room getFirstRoomLocked(Room r, ArrayList<Room> list){
+		Room current;
+
+		for(Entry<Direction, Room> entry : r.neighbors.entrySet()) {
+			current = entry.getValue();
+
+			if(current.isLocked())
+				return current;
+
+			else if(!list.contains(current) && r != current  ){
+				list.add(current);
+				return getFirstRoomLocked(current, list);
+			}
+
+		}
+
+		return null;
+
+	}
 
 
 	private static void generateExitKey(ArrayList<Room> rooms) {
@@ -36,6 +72,27 @@ public class RandomGenerate {
 		}
 	}
 
+//	private static void generateKey(ArrayList<Room> rooms) {
+//
+//		Room locked = null;
+//		ArrayList<Room> list = new ArrayList<Room>();
+//		
+//		while(locked != null){
+//			locked = RandomGenerate.getFirstRoomLocked(rooms.get(getEntranceRoomNumber(rooms)), rooms);
+//			Key k = new Key(locked.getNumero());
+//			RandomGenerate.get
+//			
+//			
+//			
+//			
+//			
+//		}
+			
+		
+
+//
+//	}
+//
 
 
 
@@ -43,22 +100,6 @@ public class RandomGenerate {
 		for (int i = 0; i < size; i++) {
 			extendDj(rooms, i%2);
 		}
-	}
-
-
-
-
-	public static void getConnectedRoom(Room r, ArrayList<Room> list){
-
-
-		for(Entry<Direction, Room> entry : r.neighbors.entrySet()) {
-			Room current = entry.getValue();
-			if(!list.contains(current) && !current.isLocked()){
-				list.add(current);
-				getConnectedRoom(current, list);	
-			}
-		}
-
 	}
 
 
@@ -112,6 +153,14 @@ public class RandomGenerate {
 		return 0;
 	}
 
+	private static int getEntranceRoomNumber(ArrayList<Room> rooms) {
+		for(Room r : rooms){
+			if(r.isEntrance())
+				return r.getNumero();
+		}
+		return 0;
+	}
+
 	/**
 	 * @param size the size from the entrance to the exit
 	 * @param rooms all the rooms of the dungeon
@@ -160,10 +209,10 @@ public class RandomGenerate {
 		else
 			return Direction.WEST;
 	}
-	
-	
-	
-	
+
+
+
+
 	public static void main(String[] args) {
 		ArrayList<Room> list = new ArrayList<Room>();
 		ArrayList<Room> connected = new ArrayList<Room>();
@@ -173,24 +222,25 @@ public class RandomGenerate {
 			Room r3 = RoomFactory.generateRoom("Normal",list);
 			Room r4 = RoomFactory.generateRoom("Normal",list);
 			Room r5 = RoomFactory.generateRoom("Normal",list);
-			
+
 			RoomFactory.connectRoom(r1, Direction.NORTH, r2);
 			RoomFactory.connectRoom(r2, Direction.NORTH, r3);
 			RoomFactory.connectRoom(r3, Direction.NORTH, r4);
 			RoomFactory.connectRoom(r4, Direction.NORTH, r5);
-			
+
 			r3.setLocked(true);
-			
-			RandomGenerate.getConnectedRoom(r1, connected);
-			
-			System.out.println(connected.size());
-			
-			
+
+			//				RandomGenerate.getFirstRoomLocked(r1);
+			Room r = RandomGenerate.getFirstRoomLocked(r1, connected);
+
+			System.out.println(r.getNumero());
+
+
 		} catch (UnknowRoomTypeException e) {
 			e.printStackTrace();
 		}
-		
-		
-		
+
+
+
 	}
 }
