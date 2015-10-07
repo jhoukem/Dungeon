@@ -40,29 +40,29 @@ public class Test {
 
 
 
-	@org.junit.Test
-	public void testGetFirstLockedRoom() throws UnknowRoomTypeException{
-		ArrayList<Room> list = new ArrayList<Room>();
-		ArrayList<Room> connected = new ArrayList<Room>();
-
-		Room r1 = RoomFactory.generateRoom("Normal",list);
-		Room r2 = RoomFactory.generateRoom("Normal",list);
-		Room r3 = RoomFactory.generateRoom("Normal",list);
-		Room r4 = RoomFactory.generateRoom("Normal",list);
-		Room r5 = RoomFactory.generateRoom("Normal",list);
-		Room r6 = RoomFactory.generateRoom("Normal",list);
-
-		RoomFactory.connectRoom(r1, Direction.NORTH, r2);
-		RoomFactory.connectRoom(r2, Direction.NORTH, r3);
-		RoomFactory.connectRoom(r3, Direction.NORTH, r4);
-		RoomFactory.connectRoom(r4, Direction.NORTH, r5);
-		RoomFactory.connectRoom(r3, Direction.EAST, r6);
-
-		r6.setLocked(true);
-		Room r = RandomGenerate.getFirstRoomLockedFrom(r1, connected);
-		assertEquals(6, r.getNumero());
-
-	}
+//	@org.junit.Test
+//	public void testGetFirstLockedRoom() throws UnknowRoomTypeException{
+//		ArrayList<Room> list = new ArrayList<Room>();
+//		ArrayList<Room> connected = new ArrayList<Room>();
+//
+//		Room r1 = RoomFactory.generateRoom("Normal",list);
+//		Room r2 = RoomFactory.generateRoom("Normal",list);
+//		Room r3 = RoomFactory.generateRoom("Normal",list);
+//		Room r4 = RoomFactory.generateRoom("Normal",list);
+//		Room r5 = RoomFactory.generateRoom("Normal",list);
+//		Room r6 = RoomFactory.generateRoom("Normal",list);
+//
+//		RoomFactory.connectRoom(r1, Direction.NORTH, r2);
+//		RoomFactory.connectRoom(r2, Direction.NORTH, r3);
+//		RoomFactory.connectRoom(r3, Direction.NORTH, r4);
+//		RoomFactory.connectRoom(r4, Direction.NORTH, r5);
+//		RoomFactory.connectRoom(r3, Direction.EAST, r6);
+//
+//		r6.setLocked(true);
+//		Room r = RandomGenerate.getFirstRoomLockedFrom(r1, connected);
+//		assertEquals(6, r.getNumero());
+//
+//	}
 
 
 
