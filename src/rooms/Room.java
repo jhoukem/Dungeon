@@ -35,7 +35,7 @@ public class Room {
 		else 
 			checkItem(p);
 	}
-	
+
 	protected void displayNum() {
 		System.out.println("Room nï¿½"+getNumero());	
 	}
@@ -145,6 +145,16 @@ public class Room {
 		if(neighbors.get(Direction.WEST) != null){
 			s+= " WEST : "+ getNextRoom(Direction.WEST).getNumero();
 		}
+		if(isLocked())
+			s+= " LOCKED";
+		else
+			s+= " UNLOCKED";
+		if(key != null)
+			s+=" key n°"+key.ROOM_NUMBER;
+		else
+			s+=" no key";
+
+
 		return s;
 	}
 

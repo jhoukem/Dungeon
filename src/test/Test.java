@@ -38,9 +38,38 @@ import exceptions.UnknowRoomTypeException;
 
 public class Test {
 
+
+
+	@org.junit.Test
+	public void testGetFirstLockedRoom() throws UnknowRoomTypeException{
+		ArrayList<Room> list = new ArrayList<Room>();
+		ArrayList<Room> connected = new ArrayList<Room>();
+
+		Room r1 = RoomFactory.generateRoom("Normal",list);
+		Room r2 = RoomFactory.generateRoom("Normal",list);
+		Room r3 = RoomFactory.generateRoom("Normal",list);
+		Room r4 = RoomFactory.generateRoom("Normal",list);
+		Room r5 = RoomFactory.generateRoom("Normal",list);
+		Room r6 = RoomFactory.generateRoom("Normal",list);
+
+		RoomFactory.connectRoom(r1, Direction.NORTH, r2);
+		RoomFactory.connectRoom(r2, Direction.NORTH, r3);
+		RoomFactory.connectRoom(r3, Direction.NORTH, r4);
+		RoomFactory.connectRoom(r4, Direction.NORTH, r5);
+		RoomFactory.connectRoom(r3, Direction.EAST, r6);
+
+		r6.setLocked(true);
+		Room r = RandomGenerate.getFirstRoomLockedFrom(r1, connected);
+		assertEquals(6, r.getNumero());
+
+	}
+
+
+
+
 	@org.junit.Test
 	public void testDjRandomInit() throws DungeonTooSmallException,
-			MissingExitRoomException, MissingEntranceRoomException {
+	MissingExitRoomException, MissingEntranceRoomException {
 		Dungeon dj = new Dungeon();
 		dj.randomInit(7);
 		assertTrue(dj.hasExit());
@@ -49,7 +78,7 @@ public class Test {
 
 	@org.junit.Test
 	public void testInitFromFile() throws MissingExitRoomException,
-			MissingEntranceRoomException {
+	MissingEntranceRoomException {
 		Dungeon dj = new Dungeon();
 		dj.initFromFile("dj1.txt");
 		assertTrue(dj.hasExit());
@@ -58,14 +87,14 @@ public class Test {
 
 	@org.junit.Test(expected = MissingExitRoomException.class)
 	public void testNoExit() throws MissingExitRoomException,
-			MissingEntranceRoomException {
+	MissingEntranceRoomException {
 		Dungeon dj = new Dungeon();
 		dj.initFromFile("testDjNoExit.txt");
 	}
 
 	@org.junit.Test(expected = MissingEntranceRoomException.class)
 	public void testNoEntrance() throws MissingExitRoomException,
-			MissingEntranceRoomException {
+	MissingEntranceRoomException {
 		Dungeon dj = new Dungeon();
 		dj.initFromFile("testDjNoEntrance.txt");
 	}
@@ -392,7 +421,7 @@ public class Test {
 
 	@org.junit.Test(expected = DungeonTooSmallException.class)
 	public void testRandomDjException() throws DungeonTooSmallException,
-			UnknowRoomTypeException {
+	UnknowRoomTypeException {
 		ArrayList<Room> rooms = RandomGenerate.generate(3);
 		rooms = RandomGenerate.generate(2);
 		rooms = RandomGenerate.generate(1);
@@ -539,8 +568,8 @@ public class Test {
 		assertEquals(p.getSecours().size(),2);
 		assertEquals(p.getTorch().getFire(),20);
 	}
-	
-	
+
+
 	@org.junit.Test(expected = CorruptedFileException.class)
 	public void testCorruptedFileExceptions() throws CorruptedFileException {
 		GenerateFromFile.getAllQuestions("testCorruptedQuestionFile.txt");
