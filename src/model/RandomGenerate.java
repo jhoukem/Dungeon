@@ -26,31 +26,28 @@ public class RandomGenerate {
 
 
 
-//	private static ArrayList<Room> getLockedRoom(ArrayList<Room> rooms) {
-//		ArrayList<Room> list = new ArrayList<Room>();
-//		for (Room room : list) {
-//			if(room.isLocked())
-//				list.add(room);
-//		}
-//		return list;
-//	}
+	private static ArrayList<Room> getLockedRoom(ArrayList<Room> rooms) {
+		ArrayList<Room> list = new ArrayList<Room>();
+		for (Room room : list) {
+			if(room.isLocked())
+				list.add(room);
+		}
+		return list;
+	}
 
 
 
 	public static Room getFirstRoomLockedFrom(Room r, ArrayList<Room> list){
-		Room current = r;
-		for(Entry<Direction, Room> entry : r.neighbors.entrySet()) {
-			current = entry.getValue();
-			if(current.isLocked())
-				return current;
-			//			else if(r.isLocked())
-			//				return r;
-
-			else if(!list.contains(current)){
-				list.add(current);
-				current = getFirstRoomLockedFrom(current, list);
+		Room current = null;
+		if(!list.contains(r)){
+			list.add(r);
+			for(Entry<Direction, Room> entry : r.neighbors.entrySet()) {
+				current = entry.getValue();
+				if(current.isLocked())
+					return current;
+				else if(!list.contains(current))
+					current = getFirstRoomLockedFrom(current, list);
 			}
-
 		}
 
 		return current;
@@ -84,40 +81,40 @@ public class RandomGenerate {
 		}
 	}
 
-//	private static void generateKey(ArrayList<Room> rooms) {
-//
-//		ArrayList<Room> list = new ArrayList<Room>();
-//		ArrayList<Room> roomsLocked = getLockedRoom(rooms);
-//
-//		Room entrance = rooms.get(getEntranceRoomNumber(rooms));
-//
-//
-//		Room locked = RandomGenerate.getFirstRoomLockedFrom(entrance, rooms);
-//		while(locked != null){
-//
-//			if(!locked.isLocked())
-//				System.out.println("error au locked");
-//
-//
-//			Key k = new Key(locked.getNumero());
-//			RandomGenerate.getConnectedRoom(entrance, list);
-//			int alea = (int) (Math.random()*list.size());
-//			while(list.get(alea).getKey() != null){
-//				alea = (int) (Math.random()*list.size());
-//			}
-//
-//
-//
-//			list.get(alea).setKey(k);
-//			locked.setLocked(false);
-//			locked = RandomGenerate.getFirstRoomLockedFrom(rooms.get(getEntranceRoomNumber(rooms)), rooms);
-//		}
-//		for (Room room : roomsLocked) {
-//			room.setLocked(true);
-//		}
-//
-//
-//	}
+	private static void generateKey(ArrayList<Room> rooms) {
+
+		ArrayList<Room> list = new ArrayList<Room>();
+		ArrayList<Room> roomsLocked = getLockedRoom(rooms);
+
+		Room entrance = rooms.get(getEntranceRoomNumber(rooms));
+
+
+		Room locked = RandomGenerate.getFirstRoomLockedFrom(entrance, rooms);
+		while(locked != null){
+
+			if(!locked.isLocked())
+				System.out.println("error au locked");
+
+
+			Key k = new Key(locked.getNumero());
+			RandomGenerate.getConnectedRoom(entrance, list);
+			int alea = (int) (Math.random()*list.size());
+			while(list.get(alea).getKey() != null){
+				alea = (int) (Math.random()*list.size());
+			}
+
+
+
+			list.get(alea).setKey(k);
+			locked.setLocked(false);
+			locked = RandomGenerate.getFirstRoomLockedFrom(rooms.get(getEntranceRoomNumber(rooms)), rooms);
+		}
+		for (Room room : roomsLocked) {
+			room.setLocked(true);
+		}
+
+
+	}
 
 
 
@@ -183,13 +180,13 @@ public class RandomGenerate {
 		return 0;
 	}
 
-//	private static int getEntranceRoomNumber(ArrayList<Room> rooms) {
-//		for(Room r : rooms){
-//			if(r.isEntrance())
-//				return r.getNumero();
-//		}
-//		return 0;
-//	}
+	private static int getEntranceRoomNumber(ArrayList<Room> rooms) {
+		for(Room r : rooms){
+			if(r.isEntrance())
+				return r.getNumero();
+		}
+		return 0;
+	}
 
 	/**
 	 * @param size the size from the entrance to the exit
