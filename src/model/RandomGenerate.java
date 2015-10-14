@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.Map.Entry;
 
 import exceptions.DungeonTooSmallException;
+import exceptions.MissingEntranceRoomException;
+import exceptions.MissingExitRoomException;
 import exceptions.UnknowRoomTypeException;
 import items.Key;
 import rooms.Room;
@@ -19,8 +21,8 @@ public class RandomGenerate {
 		ArrayList<Room> rooms = new ArrayList<Room>();
 		generateLinearDj(size,rooms);
 		generateLabyPath(size/2,rooms);
-		generateExitKey(rooms);
-		//				generateKey(rooms);
+		//		generateExitKey(rooms);
+		generateKey(rooms);
 		return rooms;
 	}
 
@@ -28,7 +30,7 @@ public class RandomGenerate {
 
 	private static ArrayList<Room> getLockedRoom(ArrayList<Room> rooms) {
 		ArrayList<Room> list = new ArrayList<Room>();
-		for (Room room : list) {
+		for (Room room : rooms) {
 			if(room.isLocked())
 				list.add(room);
 		}
@@ -36,23 +38,37 @@ public class RandomGenerate {
 	}
 
 
-
-	public static Room getFirstRoomLockedFrom(Room r, ArrayList<Room> list){
-		Room current = null;
-		if(!list.contains(r)){
-			list.add(r);
+	public static void getFirstRoomLockedFrom(Room r, ArrayList<Room> list, ArrayList<Room> parcours){	
+		parcours.add(r);
+		if(list.isEmpty()){
 			for(Entry<Direction, Room> entry : r.neighbors.entrySet()) {
-				current = entry.getValue();
-				if(current.isLocked())
-					return current;
-				else if(!list.contains(current))
-					current = getFirstRoomLockedFrom(current, list);
+				Room next = entry.getValue();
+				if(next.isLocked())
+					list.add(next);
+				else if(!parcours.contains(next)){
+					getFirstRoomLockedFrom(next, list, parcours);
+				}
 			}
 		}
 
-		return current;
-
 	}
+
+	//	public static Room getFirstRoomLockedFrom(Room r, ArrayList<Room> list){
+	//		Room locked = null;
+	//
+	//		if(r.isLocked())
+	//			return r;
+	//		if(!list.contains(r)){
+	//			list.add(r);
+	//			for(Entry<Direction, Room> entry : r.neighbors.entrySet()) {
+	//				Room next = entry.getValue();
+	//				locked = getFirstRoomLockedFrom(next, list);
+	//				if(locked.isLocked())
+	//					break;
+	//			}
+	//		}
+	//		return locked;
+	//	}
 
 
 
@@ -71,47 +87,70 @@ public class RandomGenerate {
 
 
 
-	private static void generateExitKey(ArrayList<Room> rooms) {
-		Collections.shuffle(rooms);
-		for (Room r : rooms) {
-			if(!r.isExit() && !r.isEntrance() && r.getNeighborsCount() == 1){
-				r.setKey(new Key(getExitRoomNumber(rooms)));
-				break;
-			}
-		}
-	}
+	//	private static void generateExitKey(ArrayList<Room> rooms) {
+	//		Collections.shuffle(rooms);
+	//		for (Room r : rooms) {
+	//			if(!r.isExit() && !r.isEntrance() && r.getNeighborsCount() == 1){
+	//				r.setKey(new Key(getExitRoomNumber(rooms)));
+	//				break;
+	//			}
+	//		}
+	//	}
 
+	
 	private static void generateKey(ArrayList<Room> rooms) {
 
 		ArrayList<Room> list = new ArrayList<Room>();
 		ArrayList<Room> roomsLocked = getLockedRoom(rooms);
-
 		Room entrance = rooms.get(getEntranceRoomNumber(rooms));
+		Room exit = rooms.get(getExitRoomNumber(roomsLocked)); 
 
+		ArrayList<Room> parcours = new ArrayList<Room>();
+		ArrayList<Room> oneRoom = new ArrayList<Room>();
+		RandomGenerate.getFirstRoomLockedFrom(entrance, oneRoom, parcours);
+		Room locked;
+		boolean impossible = false;
 
-		Room locked = RandomGenerate.getFirstRoomLockedFrom(entrance, rooms);
+		if(!oneRoom.isEmpty())
+			locked = oneRoom.get(0);
+		else
+			locked = null;
+
 		while(locked != null){
 
-			if(!locked.isLocked())
-				System.out.println("error au locked");
-
-
 			Key k = new Key(locked.getNumero());
-			RandomGenerate.getConnectedRoom(entrance, list);
+
+			list.clear();
+			RandomGenerate.getConnectedRoom(entrance, list); // stocke les room accessibles depuis l'entree dans list
+			if(list.isEmpty()){
+				impossible = true;
+				break;
+			}
+
 			int alea = (int) (Math.random()*list.size());
-			while(list.get(alea).getKey() != null){
+			while(list.get(alea).getKey() != null && (list.get(alea)!= exit) ){
 				alea = (int) (Math.random()*list.size());
 			}
 
-
-
 			list.get(alea).setKey(k);
 			locked.setLocked(false);
-			locked = RandomGenerate.getFirstRoomLockedFrom(rooms.get(getEntranceRoomNumber(rooms)), rooms);
+
+			oneRoom.clear();
+			parcours.clear();
+			RandomGenerate.getFirstRoomLockedFrom(entrance, oneRoom, parcours);
+			if(!oneRoom.isEmpty())
+				locked = oneRoom.get(0);
+			else
+				locked = null;
 		}
-		for (Room room : roomsLocked) {
-			room.setLocked(true);
-		}
+		if(!impossible)
+			for (Room room : roomsLocked) {
+				room.setLocked(true);
+			}
+		else
+			for (Room room : roomsLocked) {
+				room.setLocked(false);
+			}
 
 
 	}
@@ -241,7 +280,8 @@ public class RandomGenerate {
 
 	public static void main(String[] args) {
 		ArrayList<Room> list = new ArrayList<Room>();
-		ArrayList<Room> connected = new ArrayList<Room>();
+		ArrayList<Room> locked = new ArrayList<Room>();
+		ArrayList<Room> parcours = new ArrayList<Room>();
 		try {
 			Room r1 = RoomFactory.generateRoom("Normal",list);
 			Room r2 = RoomFactory.generateRoom("Normal",list);
@@ -249,20 +289,31 @@ public class RandomGenerate {
 			Room r4 = RoomFactory.generateRoom("Normal",list);
 			Room r5 = RoomFactory.generateRoom("Normal",list);
 			Room r6 = RoomFactory.generateRoom("Normal",list);
+			Room r7 = RoomFactory.generateRoom("Normal",list);
 
 			RoomFactory.connectRoom(r1, Direction.NORTH, r2);
 			RoomFactory.connectRoom(r2, Direction.NORTH, r3);
 			RoomFactory.connectRoom(r3, Direction.NORTH, r4);
 			RoomFactory.connectRoom(r4, Direction.NORTH, r5);
 			RoomFactory.connectRoom(r3, Direction.EAST, r6);
+			RoomFactory.connectRoom(r6, Direction.EAST, r7);
 			r6.setLocked(true);
+			r7.setLocked(true);
 
-			Room locked = getFirstRoomLockedFrom(r1, connected);
+			Room test;
+			getFirstRoomLockedFrom(r1, locked, parcours);
 
-			System.out.println(locked.getNumero());
-			System.out.println(locked.toString());
+			test = locked.get(0);
+			System.out.println(test.getNumero());
+			System.out.println(test.toString());
+			System.out.println("------------------");
 
-		} catch (UnknowRoomTypeException e) {
+			Dungeon dg = new Dungeon();
+			dg.randomInit(6);
+			for(Room r : dg.getRooms())
+				System.out.println(r.toString());
+
+		} catch (UnknowRoomTypeException | DungeonTooSmallException | MissingExitRoomException | MissingEntranceRoomException e) {
 			e.printStackTrace();
 		}
 
