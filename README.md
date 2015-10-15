@@ -1,5 +1,5 @@
 # Dungeon
-L3 info project
-OUWE MISSI OUKEM JEAN-HUGO
-TOULOUSE DAMIEN
-GRP3
+
+Simple RPG dungeon game (text based) in Java, developped for a Licence 3 project by:  
+OUWE MISSI OUKEM Jean-Hugo   
+TOULOUSE Damien
